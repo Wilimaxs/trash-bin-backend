@@ -1,0 +1,11 @@
+pydantic
+starlette
+fastapi
+uvicorn[standard]
+python-multipart
+pyjwt
+bcrypt
+ultralytics
+sqlalchemy
+alembic
+python-dotenv

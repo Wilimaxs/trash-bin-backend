@@ -1,0 +1,11 @@
+### Register
+POST http://127.0.0.1:8000/auth/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "test1@example.com",
+  "password": "123456789",
+  "password_confirmation": "123456789",
+  "full_name": "Test User"
+}
