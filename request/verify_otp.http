@@ -5,5 +5,5 @@ Accept: application/json
 
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzQ2OTczODYsInR5cGUiOiJyZWdpc3RyYXRpb24iLCJlbWFpbCI6IndpbGRhbjI3MzcwQGdtYWlsLmNvbSIsIm90cF9jb2RlIjoiMjYwMjQyIn0.I7VjHTeqOWZeVEIlH6ezrnczh0Kal5NsA6dLo_r2x7Y",
-  "otp_code": "260242"
+  "otp_code": "26024u"
 }
