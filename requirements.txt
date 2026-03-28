@@ -9,3 +9,4 @@ ultralytics
 sqlalchemy
 alembic
 python-dotenv
+resend
