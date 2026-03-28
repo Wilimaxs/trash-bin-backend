@@ -1,15 +1,21 @@
+import random
+import resend
+from datetime import timedelta
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from app.core.config import OTP_TOKEN_EXPIRE_MINUTES, RESEND_API_KEY
 from app.models.user import User
 from app.schemas.registration_request import RegistrationRequest
 from app.schemas.common import success
-from app.services.security import hash_password
+from app.services.security import hash_password, create_otp_token
 from app.db.deps import get_db
+from app.utils.email_templates import get_otp_registration_html
+
+resend.api_key = RESEND_API_KEY
 
 router = APIRouter(prefix="/auth", tags=["auth"])
-
 
 @router.post(path="/registration", status_code=201)
 def register_user(payload: RegistrationRequest, db: Session = Depends(get_db)) -> dict:
@@ -27,7 +33,6 @@ def register_user(payload: RegistrationRequest, db: Session = Depends(get_db)) -
         email=payload.email,
         password=hash_password(payload.password),
         full_name=payload.full_name,
-        total_points=0,
     )
 
     """
@@ -38,14 +43,31 @@ def register_user(payload: RegistrationRequest, db: Session = Depends(get_db)) -
     db.refresh(user)
 
     """
+    Generate OTP and Token
+    """
+    otp_code = str(random.randint(a=100000, b=999999))
+    expires = timedelta(minutes=OTP_TOKEN_EXPIRE_MINUTES)
+    token = create_otp_token(email=user.email, otp_code=otp_code, expires_delta=expires)
+
+    try:
+        if RESEND_API_KEY:
+            # noinspection PyTypeChecker
+            params: resend.Emails.SendParams = {
+                "from": "Trash Bin App <no-reply@notify.basehub.me>",
+                "to": [user.email],
+                "subject": "OTP Verification - Trash Bin API",
+                "html": get_otp_registration_html(otp_code),
+            } # type: ignore
+            resend.Emails.send(params)
+    except Exception as e:
+        print("Failed to send email", str(e))
+
+    """
     Return response json
     """
     return success(
-        message="Registration successful",
+        message="Registration successful. Check your email for OTP.",
         data={
-            "id": user.id,
-            "email": user.email,
-            "full_name": user.full_name,
-            "total_points": user.total_points,
+            "access_token": token,
         },
     )
