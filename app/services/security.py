@@ -28,3 +28,19 @@ def create_otp_token(email: str, otp_code: str, expires_delta: timedelta) -> str
     }
     encoded_jwt = jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
     return encoded_jwt
+
+
+def verify_otp_token(token: str) -> dict:
+    """
+    Verify the JWT OTP token and return the payload.
+    Raises exception if invalid or expired.
+    """
+    try:
+        payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM])
+        if payload.get("type") != "registration":
+            raise jwt.PyJWTError("Invalid token type")
+        return payload
+    except jwt.ExpiredSignatureError:
+        raise ValueError("OTP expired")
+    except jwt.PyJWTError:
+        raise ValueError("Invalid token")
