@@ -1,5 +1,5 @@
 ### Register
-POST http://127.0.0.1:8000/auth/register
+POST http://127.0.0.1:8000/auth/registration
 Content-Type: application/json
 Accept: application/json
 
