@@ -96,3 +96,24 @@ def create_refresh_token(data: dict, expires_delta: timedelta) -> str:
     to_encode.update({"exp": expire, "type": "refresh"})
     encoded_jwt = jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
     return encoded_jwt
+
+
+def verify_refresh_token(token: str) -> str:
+    """
+    Verify the JWT refresh token and return the user_id (sub).
+    Raises exception if invalid or expired.
+    """
+    try:
+        payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM])
+        if payload.get("type") != "refresh":
+            raise jwt.PyJWTError("Invalid token type")
+        
+        user_id = payload.get("sub")
+        if not user_id:
+            raise jwt.PyJWTError("Missing subject")
+            
+        return str(user_id)
+    except jwt.ExpiredSignatureError:
+        raise ValueError("Refresh token expired")
+    except jwt.PyJWTError:
+        raise ValueError("Invalid refresh token")

@@ -1,0 +1,9 @@
+### Refresh Access Token
+POST http://127.0.0.1:8000/auth/refresh-token
+Content-Type: application/json
+Accept: application/json
+
+{
+  "refresh_token": "<masukkan_refresh_token_disini>"
+}
+

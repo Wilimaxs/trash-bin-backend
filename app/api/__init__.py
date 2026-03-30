@@ -18,3 +18,4 @@ api_router.include_router(reset_password_router)
 api_router.include_router(history_router)
 api_router.include_router(point_earned_router)
 api_router.include_router(profile_router)
+
