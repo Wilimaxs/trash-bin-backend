@@ -11,43 +11,41 @@ def get_otp_registration_html(otp_code: str) -> str:
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>OTP Verification</title>
     </head>
-    <body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; color: #333333; margin: 0; padding: 0; line-height: 1.6;">
-        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f3f4f6; padding: 40px 0;">
+    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #ffffff; color: #333333; margin: 0; padding: 0; line-height: 1.6;">
+        <!-- Preheader Text (Hidden in email body, visible in client lists like Gmail) -->
+        <span style="display: none; max-height: 0px; overflow: hidden; opacity: 0; font-size: 0px; mso-hide: all;">
+            Your registration code is {otp_code}. Use this to verify your account.
+            &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+        </span>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding: 40px 0; background-color: #f9f9f9;">
             <tr>
                 <td align="center">
-                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 600px; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                        
-                        <!-- Header -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 500px; background-color: #ffffff; border: 1px solid #eaeaea; border-radius: 8px; overflow: hidden;">
                         <tr>
-                            <td style="background-color: #16a34a; padding: 30px; text-align: center;">
-                                <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 600;">Trash Bin API</h1>
+                            <td style="padding: 30px 40px; text-align: center; border-bottom: 1px solid #eaeaea;">
+                                <h1 style="color: #111111; margin: 0; font-size: 20px; font-weight: 600;">Trash Bin API</h1>
                             </td>
                         </tr>
-
-                        <!-- Body -->
                         <tr>
-                            <td style="padding: 40px 30px;">
-                                <p style="margin-top: 0; font-size: 16px; color: #4b5563;">Hello,</p>
-                                <p style="font-size: 16px; color: #4b5563;">Thank you for registering. To complete your account verification, please enter the following One-Time Password (OTP):</p>
+                            <td style="padding: 40px;">
+                                <p style="margin-top: 0; font-size: 16px; color: #555555;">Hello,</p>
+                                <p style="font-size: 16px; color: #555555; margin-bottom: 30px;">Thank you for registering. To complete your account verification, please enter the following One-Time Password (OTP):</p>
                                 
-                                <div style="margin: 35px 0; text-align: center;">
-                                    <span style="display: inline-block; font-size: 40px; font-weight: bold; letter-spacing: 8px; color: #16a34a; background-color: #f0fdf4; padding: 15px 30px; border-radius: 8px; border: 2px dashed #86efac; margin-left: 8px;">
+                                <div style="text-align: center; margin-bottom: 30px;">
+                                    <div style="display: inline-block; font-size: 32px; font-weight: 700; letter-spacing: 6px; color: #111111; background-color: #f9f9f9; padding: 15px 30px; border-radius: 6px; border: 1px solid #eeeeee;">
                                         {otp_code}
-                                    </span>
+                                    </div>
                                 </div>
                                 
-                                <p style="font-size: 16px; color: #4b5563;">This code is valid for <strong>5 minutes</strong>. Please do not share this code with anyone.</p>
-                                <p style="font-size: 14px; color: #9ca3af; margin-bottom: 0;">If you did not request this verification, please ignore this email. Your account is completely secure.</p>
+                                <p style="font-size: 15px; color: #555555;">This code is valid for <strong>5 minutes</strong>. Please do not share this code with anyone.</p>
+                                <p style="font-size: 13px; color: #999999; margin-top: 30px; margin-bottom: 0;">If you did not request this verification, please ignore this email. Your account is completely secure.</p>
                             </td>
                         </tr>
-
-                        <!-- Footer -->
                         <tr>
-                            <td style="background-color: #f9fafb; padding: 20px 30px; text-align: center; border-top: 1px solid #f3f4f6;">
-                                <p style="margin: 0; font-size: 13px; color: #6b7280;">&copy; 2026 Trash Bin API. All rights reserved.</p>
+                            <td style="background-color: #fcfcfc; padding: 20px 40px; text-align: center; border-top: 1px solid #eaeaea;">
+                                <p style="margin: 0; font-size: 12px; color: #888888;">&copy; 2026 Trash Bin API. All rights reserved.</p>
                             </td>
                         </tr>
-
                     </table>
                 </td>
             </tr>
