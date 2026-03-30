@@ -6,7 +6,5 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwI
 
 {
   "full_name": "Alexander The Great",
-  "email": "alexander@example.com",
   "avatar_url": "https://example.com/new_avatar.jpg"
 }
-
