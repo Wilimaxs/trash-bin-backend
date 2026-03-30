@@ -13,10 +13,10 @@ from app.schemas.common import success
 from app.schemas.history_response import HistoryItemResponse, HistoryPaginationResponse
 from app.services.api_header import get_current_user
 
-router = APIRouter()
+router = APIRouter(prefix="/history", tags=["history"])
 
 
-@router.get("/history")
+@router.get("")
 def get_user_history(
     compartment_type: Optional[str] = Query(None, alias="type", description="Filter by compartment type (organic, inorganic, b3)"),
     page: int = Query(1, ge=1, description="Page number"),

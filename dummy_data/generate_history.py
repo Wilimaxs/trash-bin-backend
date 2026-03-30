@@ -42,14 +42,20 @@ def generate_dummy_history() -> None:
 
         now = get_wib_time()
 
-        for _ in range(TOTAL_ROWS):
+        for i in range(TOTAL_ROWS):
             category = random.choice(categories)
             selected_bin = random.choice(bins)
 
-            # Spread timestamps over roughly the last 60 days for better UI grouping.
-            random_days_ago = random.randint(0, 59)
-            random_minutes = random.randint(0, 1439)
-            created_at = now - timedelta(days=random_days_ago, minutes=random_minutes)
+            # Ensure the first 5 rows are generated strictly for "today"
+            if i < 5:
+                # Random time within the last 12 hours of today
+                random_minutes = random.randint(0, 720)
+                created_at = now - timedelta(minutes=random_minutes)
+            else:
+                # Spread timestamps over roughly the last 60 days for better UI grouping.
+                random_days_ago = random.randint(1, 59)
+                random_minutes = random.randint(0, 1439)
+                created_at = now - timedelta(days=random_days_ago, minutes=random_minutes)
 
             # noinspection PyTypeChecker
             row = DisposalHistory(
@@ -75,4 +81,3 @@ def generate_dummy_history() -> None:
 
 if __name__ == "__main__":
     generate_dummy_history()
-
