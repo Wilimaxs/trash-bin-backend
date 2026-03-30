@@ -1,0 +1,5 @@
+### Get User Profile
+GET http://127.0.0.1:8000/user/profile
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzc0OTUwNTY1LCJ0eXBlIjoiYWNjZXNzIn0.O1W8FafQii0287bzQHtdEGseOgrLAD9T5Da0m4UF0go
+
