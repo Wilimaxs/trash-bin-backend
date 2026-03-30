@@ -4,6 +4,7 @@ from app.api.verify import router as verify_router
 from app.api.login import router as login_router
 from app.api.forgot_password import router as forgot_password_router
 from app.api.reset_password import router as reset_password_router
+from app.api.history import router as history_router
 
 
 api_router = APIRouter()
@@ -12,3 +13,4 @@ api_router.include_router(verify_router)
 api_router.include_router(login_router)
 api_router.include_router(forgot_password_router)
 api_router.include_router(reset_password_router)
+api_router.include_router(history_router)
