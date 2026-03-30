@@ -1,30 +1,25 @@
-import re
 from typing import Optional
 
-from pydantic import BaseModel, Field, field_validator, model_validator
-
-# Regex email validation
-EMAIL_REGEX = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+from pydantic import BaseModel, Field, field_validator, model_validator, EmailStr
 
 
 class RegistrationRequest(BaseModel):
     """
     Schema validation registration request.
     """
-    email: str = Field(..., max_length=255, description="Email")
+    email: EmailStr = Field(..., max_length=255, description="Email")
     password: str = Field(..., min_length=8, max_length=72, description="Password")
     password_confirmation: str = Field(..., min_length=8, max_length=72, description="Password Confirmation")
     full_name: Optional[str] = Field(default=None, max_length=255, description="Full Name")
 
     """
-    Validation email address format
+    Normalize email address
     """
-    @field_validator("email")
+    @field_validator("email", mode="before")
     @classmethod
-    def validate_and_normalize_email(cls, value: str) -> str:
-        value = value.strip().lower()
-        if not EMAIL_REGEX.match(value):
-            raise ValueError("Invalid email address format")
+    def normalize_email(cls, value: str) -> str:
+        if isinstance(value, str):
+            return value.strip().lower()
         return value
 
     """

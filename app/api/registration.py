@@ -22,6 +22,7 @@ def register_user(payload: RegistrationRequest, db: Session = Depends(get_db)) -
     """
     Check if email already exists in the database
     """
+    # noinspection PyTypeChecker
     existing_email = db.execute(select(User).where(User.email == payload.email)).scalar_one_or_none()
     if existing_email:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -29,6 +30,7 @@ def register_user(payload: RegistrationRequest, db: Session = Depends(get_db)) -
     """
     Make a new user
     """
+    # noinspection PyTypeChecker
     user = User(
         email=payload.email,
         password=hash_password(payload.password),
