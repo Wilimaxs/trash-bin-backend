@@ -1,0 +1,9 @@
+### Login
+POST http://127.0.0.1:8000/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "wildan27370@gmail.com",
+  "password": "123456789"
+}
