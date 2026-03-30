@@ -66,6 +66,7 @@ def login_user(payload: LoginRequest, db: Session = Depends(get_db)):
                 "id": user.id,
                 "email": user.email,
                 "full_name": user.full_name,
+                "avatar_url": user.avatar_url,
                 "total_points": user.total_points,
             },
             "access_token": access_token,
