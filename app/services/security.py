@@ -15,14 +15,14 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     return bcrypt.checkpw(encoded, hashed_password.encode("utf-8"))
 
 
-def create_otp_token(email: str, otp_code: str, expires_delta: timedelta) -> str:
+def create_otp_token(email: str, otp_code: str, expires_delta: timedelta, token_type: str = "registration") -> str:
     """
-    Create a JWT token for OTP verification containing email and OTP code.
+    Create a JWT token for OTP verification containing email, OTP code, and token type.
     """
     expire = datetime.now(timezone.utc) + expires_delta
     to_encode = {
         "exp": expire,
-        "type": "registration",
+        "type": token_type,
         "email": email,
         "otp_code": otp_code,
     }
@@ -37,13 +37,26 @@ def verify_otp_token(token: str) -> dict:
     """
     try:
         payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM])
-        if payload.get("type") != "registration":
+        if payload.get("type") not in ["registration", "forgot_password"]:
             raise jwt.PyJWTError("Invalid token type")
         return payload
     except jwt.ExpiredSignatureError:
         raise ValueError("OTP expired")
     except jwt.PyJWTError:
         raise ValueError("Invalid token")
+
+def create_reset_token(email: str, expires_delta: timedelta) -> str:
+    """
+    Create a short-lived JWT token specifically for resetting the password after OTP is verified.
+    """
+    expire = datetime.now(timezone.utc) + expires_delta
+    to_encode = {
+        "exp": expire,
+        "type": "reset_password",
+        "email": email,
+    }
+    encoded_jwt = jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
+    return encoded_jwt
 
 def create_access_token(data: dict, expires_delta: timedelta) -> str:
     """

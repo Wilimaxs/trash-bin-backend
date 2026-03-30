@@ -28,7 +28,7 @@ def forgot_password_request(payload: ForgotPasswordRequest, db: Session = Depend
     # Generate OTP
     otp_code = str(random.randint(a=100000, b=999999))
     expires = timedelta(minutes=OTP_TOKEN_EXPIRE_MINUTES)
-    token = create_otp_token(email=str(payload.email), otp_code=otp_code, expires_delta=expires)
+    token = create_otp_token(email=str(payload.email), otp_code=otp_code, expires_delta=expires, token_type="forgot_password")
 
     # Only send email if the user exists
     if user:

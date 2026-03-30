@@ -49,7 +49,7 @@ def register_user(payload: RegistrationRequest, db: Session = Depends(get_db)) -
     """
     otp_code = str(random.randint(a=100000, b=999999))
     expires = timedelta(minutes=OTP_TOKEN_EXPIRE_MINUTES)
-    token = create_otp_token(email=user.email, otp_code=otp_code, expires_delta=expires)
+    token = create_otp_token(email=str(user.email), otp_code=otp_code, expires_delta=expires, token_type="registration")
 
     try:
         if RESEND_API_KEY:
