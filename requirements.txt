@@ -10,3 +10,5 @@ sqlalchemy
 alembic
 python-dotenv
 resend
+email-validator
+tzdata
