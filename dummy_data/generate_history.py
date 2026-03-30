@@ -69,6 +69,9 @@ def generate_dummy_history() -> None:
             )
             db.add(row)
 
+            # Tambahkan poin yang didapat ke total poin user
+            user.total_points += category.reward_points
+
         db.commit()
         print(f"[SUCCESS] Inserted {TOTAL_ROWS} dummy disposal histories for user_id={TARGET_USER_ID}.")
 
