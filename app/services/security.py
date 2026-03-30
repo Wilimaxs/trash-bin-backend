@@ -44,3 +44,25 @@ def verify_otp_token(token: str) -> dict:
         raise ValueError("OTP expired")
     except jwt.PyJWTError:
         raise ValueError("Invalid token")
+
+def create_access_token(data: dict, expires_delta: timedelta) -> str:
+    """
+    Create a JWT representing the access token.
+    Usually contains user ID.
+    """
+    to_encode = data.copy()
+    expire = datetime.now(timezone.utc) + expires_delta
+    to_encode.update({"exp": expire, "type": "access"})
+    encoded_jwt = jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
+    return encoded_jwt
+
+
+def create_refresh_token(data: dict, expires_delta: timedelta) -> str:
+    """
+    Create a JWT representing the long-lived refresh token.
+    """
+    to_encode = data.copy()
+    expire = datetime.now(timezone.utc) + expires_delta
+    to_encode.update({"exp": expire, "type": "refresh"})
+    encoded_jwt = jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
+    return encoded_jwt

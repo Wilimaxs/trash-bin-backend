@@ -13,7 +13,7 @@ class User(Base):
     password: Mapped[str] = mapped_column(String(255), nullable=False)
     full_name: Mapped[str | None] = mapped_column(String(255), nullable=True)
     total_points: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
-    email_verified_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    email_verified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 
     bin_sessions = relationship(argument="BinSession", back_populates="user", cascade="all, delete-orphan")
     disposal_histories = relationship(argument="DisposalHistory", back_populates="user", cascade="all, delete-orphan")
