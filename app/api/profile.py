@@ -6,7 +6,9 @@ from app.db.deps import get_db
 from app.models.disposal_history import DisposalHistory
 from app.models.user import User
 from app.schemas.common import success
+from app.schemas.update_profile_request import UpdateProfileRequest
 from app.services.api_header import get_current_user
+from fastapi import HTTPException
 
 router = APIRouter(prefix="/user", tags=["user"])
 
@@ -27,6 +29,7 @@ def get_user_profile(
         message="Success retrieve user profile",
         data={
             "full_name": current_user.full_name,
+            "email": current_user.email,
             "avatar_url": current_user.avatar_url,
             "member_since": f"Member since {member_since_year}",
             "total_points": current_user.total_points,
@@ -34,3 +37,39 @@ def get_user_profile(
         }
     )
 
+
+@router.put("/profile")
+def update_user_profile(
+    payload: UpdateProfileRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    # Cek apakah user ingin mengganti email, dan apakah email barunya sudah dipakai orang lain
+    if payload.email and payload.email != current_user.email:
+        # noinspection PyTypeChecker
+        existing_user = db.scalar(select(User).where(User.email == str(payload.email)))
+        if existing_user:
+            raise HTTPException(status_code=400, detail="Email already strictly in use by another account")
+        current_user.email = str(payload.email)
+        
+        # Kamu bisa meng-unverify email jika ganti email, tapi untuk smentara kita biarkan verified.
+        # current_user.email_verified_at = None 
+
+    if payload.full_name is not None:
+        current_user.full_name = payload.full_name
+
+    if payload.avatar_url is not None:
+        current_user.avatar_url = payload.avatar_url
+
+    db.commit()
+    db.refresh(current_user)
+
+    return success(
+        message="Profile updated successfully",
+        data={
+            "id": current_user.id,
+            "full_name": current_user.full_name,
+            "email": current_user.email,
+            "avatar_url": current_user.avatar_url
+        }
+    )

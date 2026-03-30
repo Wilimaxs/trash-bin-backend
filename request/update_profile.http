@@ -1,0 +1,12 @@
+### Update User Profile
+PUT http://127.0.0.1:8000/user/profile
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzc0OTUwNTY1LCJ0eXBlIjoiYWNjZXNzIn0.O1W8FafQii0287bzQHtdEGseOgrLAD9T5Da0m4UF0go
+
+{
+  "full_name": "Alexander The Great",
+  "email": "alexander@example.com",
+  "avatar_url": "https://example.com/new_avatar.jpg"
+}
+
