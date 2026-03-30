@@ -4,6 +4,6 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzQ4NDU0MjksInR5cGUiOiJmb3Jnb3RfcGFzc3dvcmQiLCJlbWFpbCI6IndpbGRhbjI3MzcwQGdtYWlsLmNvbSIsIm90cF9jb2RlIjoiNjM0NTc2In0.9CIv_hucFQTEu9ZuaASIhMfm15i4Fm6hIXQFxv1qay4",
-  "otp_code": "634576"
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzQ4NDU3MzUsInR5cGUiOiJmb3Jnb3RfcGFzc3dvcmQiLCJlbWFpbCI6IndpbGRhbjI3MzcwQGdtYWlsLmNvbSIsIm90cF9jb2RlIjoiMjk4OTk0In0.69ickVrUH9zq371fewxuenHtHqAxKVYMVbj7fjUMyWk",
+  "otp_code": "298994"
 }
