@@ -1,10 +1,15 @@
-### Update User Profile
-PUT http://127.0.0.1:8000/user/profile
-Content-Type: application/json
-Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzc0OTUwNTY1LCJ0eXBlIjoiYWNjZXNzIn0.O1W8FafQii0287bzQHtdEGseOgrLAD9T5Da0m4UF0go
+### Update User Profile (Form Data & File Upload)
+POST http://127.0.0.1:8000/user/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzc1MDI3NDcyLCJ0eXBlIjoiYWNjZXNzIn0.be02CtkqsYRaI7L8qUUgnZVoosxRok_gWChUdgWA2VE
+Content-Type: multipart/form-data; boundary=WebAppBoundary
 
-{
-  "full_name": "Alexander The Great",
-  "avatar_url": "https://example.com/new_avatar.jpg"
-}
+--WebAppBoundary
+Content-Disposition: form-data; name="full_name"
+
+Nama Perubahan
+--WebAppBoundary
+Content-Disposition: form-data; name="avatar"; filename="new_avatar.jpg"
+Content-Type: image/jpeg
+
+< ./roblox.png
+--WebAppBoundary--
