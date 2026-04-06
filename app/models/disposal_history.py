@@ -10,8 +10,8 @@ class DisposalHistory(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
     trash_bin_id: Mapped[int] = mapped_column(ForeignKey("trash_bins.id"), nullable=False, index=True)
-    trash_category_id: Mapped[int] = mapped_column(ForeignKey("trash_categories.id"), nullable=False, index=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False, index=True)
+    trash_category_id: Mapped[int | None] = mapped_column(ForeignKey("trash_categories.id"), nullable=True, index=True)
+    user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), nullable=True, index=True)
 
     image_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
     points_earned: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
