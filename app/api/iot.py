@@ -13,6 +13,7 @@ from app.models.bin_session import BinSession
 from app.models.disposal_history import DisposalHistory
 from app.models.trash_bin import TrashBin
 from app.models.trash_category import TrashCategory
+from app.models.user import User
 from app.schemas.common import success
 
 try:
@@ -138,6 +139,12 @@ async def detect_trash(
         if trash_category_id: # Hanya tambah items count jika memang valid terklasifikasi, atau bebas? (Asumsi tambah 1 items tetap)
             pass
         active_session.total_items += 1
+
+        # Tambahkan point juga ke total_points di table users
+        user = db.execute(select(User).where(User.id == user_id)).scalar_one_or_none()
+        if user:
+            user.total_points += reward_points
+
         db.commit()
 
     # 5. Catat ke history (user_id bisa null jika tidak ada orang yang connect atau keburu timeout)
