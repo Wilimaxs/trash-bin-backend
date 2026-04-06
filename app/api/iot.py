@@ -78,6 +78,7 @@ async def detect_trash(
     if yolo_model is None:
         raise HTTPException(status_code=500, detail="Machine learning model is not available")
 
+    confidence = 0.0
     try:
         # Proses gambar menjadi format yang bisa dibaca YOLO (seperti PIL Image)
         image_bytes = await image.read()
@@ -91,6 +92,7 @@ async def detect_trash(
             # Ambil object dengan confidence paling tinggi (default Ultralytics nge-sort dari tertinggi)
             best_box = results[0].boxes[0]
             class_id = int(best_box.cls[0].item())
+            confidence = float(best_box.conf[0].item())
             
             # Ambil string nama kelas (contoh: "plastic_bag") dari class list YOLO
             detected_sub_category = yolo_model.names[class_id]
@@ -148,6 +150,8 @@ async def detect_trash(
         message="Trash detected successfully",
         data={
             "compartment_type": compartment_type,
-            "session_active": bool(user_id)
+            "session_active": bool(user_id),
+            "detected_sub_category": detected_sub_category,
+            "confidence": round(confidence, 2)
         }
     )
