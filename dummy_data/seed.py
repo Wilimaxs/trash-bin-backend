@@ -2,7 +2,7 @@ import sys
 import os
 
 # Ensure we can run this script from anywhere and it finds the 'app' module
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.db.session import SessionLocal
 from app.models.trash_category import TrashCategory
@@ -15,19 +15,21 @@ def seed_data():
         print("Starting database seeding...")
 
         # 1. Seed Trash Bin
-        existing_bin = db.query(TrashBin).filter(TrashBin.qr_code == "ECO-RVM-001").first()
+        existing_bin = db.query(TrashBin).filter(TrashBin.location_name == "EcoBin-RVM-Alpha").first()
         if not existing_bin:
+            import uuid
+            new_uuid = str(uuid.uuid4())
             new_bin = TrashBin(
-                qr_code="ECO-RVM-001",
+                qr_code=new_uuid,
                 location_name="EcoBin-RVM-Alpha",
                 capacity_organic=100,
                 capacity_inorganic=100,
                 capacity_b3=50
             )
             db.add(new_bin)
-            print("- Added dummy TrashBin: EcoBin-RVM-Alpha")
+            print(f"- Added dummy TrashBin: EcoBin-RVM-Alpha with QR/UUID: {new_uuid}")
         else:
-            print("- TrashBin 'EcoBin-RVM-Alpha' already exists")
+            print(f"- TrashBin 'EcoBin-RVM-Alpha' already exists with QR/UUID: {existing_bin.qr_code}")
 
         # 2. Seed Trash Categories (Reward Points set to 1)
         categories = [
@@ -78,4 +80,3 @@ def seed_data():
 
 if __name__ == "__main__":
     seed_data()
-
