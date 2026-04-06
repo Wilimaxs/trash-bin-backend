@@ -60,8 +60,16 @@ async def detect_trash(
     user_id = None
 
     if active_session:
-        # 3. Pengecekan Timeout
-        time_diff = current_time - active_session.last_activity_at
+        # Pengecekan Timeout
+        last_activity = active_session.last_activity_at or current_time
+        
+        # Samakan timezone jika ada perbedaan offset-aware dan offset-naive
+        if last_activity.tzinfo is None and current_time.tzinfo is not None:
+            last_activity = last_activity.replace(tzinfo=current_time.tzinfo)
+        elif last_activity.tzinfo is not None and current_time.tzinfo is None:
+            current_time = current_time.replace(tzinfo=last_activity.tzinfo)
+
+        time_diff = current_time - last_activity
         
         if time_diff > timedelta(minutes=IDLE_TIMEOUT_MINUTES):
             # Jika sudah lebih dari 5 menit, putuskan sesi otomatis
