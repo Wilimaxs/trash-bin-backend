@@ -14,3 +14,14 @@ Content-Type: image/jpeg
 < ./battery.png
 --boundary--
 
+### Update Capacity (IoT ESP32 hit)
+### Replace the qr_code with the actual UUID of the trash bin
+POST http://127.0.0.1:8000/iot/update-capacity
+Content-Type: application/json
+
+{
+  "qr_code": "3416cb3a-c4f5-4c39-8fb9-f5925e3f0efb",
+  "capacity_organic": 75,
+  "capacity_inorganic": 60,
+  "capacity_b3": 20
+}

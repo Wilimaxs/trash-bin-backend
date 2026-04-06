@@ -170,3 +170,31 @@ async def detect_trash(
             "confidence": round(confidence, 2)
         }
     )
+
+from pydantic import BaseModel
+
+class UpdateCapacityRequest(BaseModel):
+    qr_code: str
+    capacity_organic: int
+    capacity_inorganic: int
+    capacity_b3: int
+
+@router.post("/update-capacity")
+def update_capacity(
+    request: UpdateCapacityRequest,
+    db: Session = Depends(get_db)
+):
+    trash_bin = db.execute(select(TrashBin).where(TrashBin.qr_code == request.qr_code)).scalar_one_or_none()
+    
+    if not trash_bin:
+        raise HTTPException(status_code=404, detail="Trash bin not found")
+
+    trash_bin.capacity_organic = request.capacity_organic
+    trash_bin.capacity_inorganic = request.capacity_inorganic
+    trash_bin.capacity_b3 = request.capacity_b3
+
+    db.commit()
+
+    return success(
+        message="Capacity updated successfully"
+    )
