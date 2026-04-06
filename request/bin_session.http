@@ -1,0 +1,20 @@
+### variables
+@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzc1NTI5ODM2LCJ0eXBlIjoiYWNjZXNzIn0.8LOkCFydEk4n7N7vPcrD0xvP21p80bCnUeb-ERkaJ-c
+
+### Connect to Trash Bin
+POST http://localhost:8000/sessions/connect
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+    "qr_code": "3416cb3a-c4f5-4c39-8fb9-f5925e3f0efb"
+}
+
+### Disconnect from Trash Bin
+POST http://localhost:8000/sessions/disconnect
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+    "qr_code": "3416cb3a-c4f5-4c39-8fb9-f5925e3f0efb"
+}
