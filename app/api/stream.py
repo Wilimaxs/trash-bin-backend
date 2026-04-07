@@ -1,6 +1,5 @@
 import asyncio
 import json
-from datetime import timedelta
 
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import StreamingResponse
@@ -38,15 +37,11 @@ async def dashboard_event_generator(request: Request, user_id: int):
             
             # Cek Idle Timeout 5 menit
             if active_session:
+                from app.utils.time import is_idle_timeout
                 current_time = get_wib_time()
                 last_activity = active_session.last_activity_at or current_time
                 
-                if last_activity.tzinfo is None and current_time.tzinfo is not None:
-                    last_activity = last_activity.replace(tzinfo=current_time.tzinfo)
-                elif last_activity.tzinfo is not None and current_time.tzinfo is None:
-                    current_time = current_time.replace(tzinfo=last_activity.tzinfo)
-                
-                if current_time - last_activity > timedelta(minutes=5):
+                if is_idle_timeout(last_activity, current_time, 5):
                     # Timeout tercapai
                     active_session.is_active = False
                     db.commit()

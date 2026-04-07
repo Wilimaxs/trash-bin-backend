@@ -1,7 +1,6 @@
 import io
 import os
 import uuid
-from datetime import timedelta
 
 from PIL import Image
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
@@ -65,17 +64,10 @@ async def detect_trash(
 
     if active_session:
         # Pengecekan Timeout
+        from app.utils.time import is_idle_timeout
         last_activity = active_session.last_activity_at or current_time
         
-        # Samakan timezone jika ada perbedaan offset-aware dan offset-naive
-        if last_activity.tzinfo is None and current_time.tzinfo is not None:
-            last_activity = last_activity.replace(tzinfo=current_time.tzinfo)
-        elif last_activity.tzinfo is not None and current_time.tzinfo is None:
-            current_time = current_time.replace(tzinfo=last_activity.tzinfo)
-
-        time_diff = current_time - last_activity
-        
-        if time_diff > timedelta(minutes=IDLE_TIMEOUT_MINUTES):
+        if is_idle_timeout(last_activity, current_time, IDLE_TIMEOUT_MINUTES):
             # Jika sudah lebih dari 5 menit, putuskan sesi otomatis
             active_session.is_active = False
             db.commit()
