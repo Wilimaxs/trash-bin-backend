@@ -1,5 +1,6 @@
 import io
 import os
+import uuid
 from datetime import timedelta
 
 from PIL import Image
@@ -29,6 +30,8 @@ IDLE_TIMEOUT_MINUTES = 5
 # Load model secara global agar tidak me-load ulang setiap request masuk
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 MODEL_PATH = os.path.join(BASE_DIR, "ml_model", "version1.pt")
+UPLOAD_DIR = os.path.join(BASE_DIR, "public", "disposals")
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 try:
     if YOLO is not None and os.path.exists(MODEL_PATH):
@@ -88,9 +91,20 @@ async def detect_trash(
         raise HTTPException(status_code=500, detail="Machine learning model is not available")
 
     confidence = 0.0
+    saved_image_url = None
     try:
         # Proses gambar menjadi format yang bisa dibaca YOLO (seperti PIL Image)
         image_bytes = await image.read()
+        
+        # Simpan gambar
+        ext = image.filename.split('.')[-1] if image.filename and '.' in image.filename else 'jpg'
+        filename = f"{uuid.uuid4().hex}.{ext}"
+        filepath = os.path.join(UPLOAD_DIR, filename)
+        with open(filepath, "wb") as f:
+            f.write(image_bytes)
+            
+        saved_image_url = f"/public/disposals/{filename}"
+
         img = Image.open(io.BytesIO(image_bytes))
 
         # Inferensi dipanggil ke model
@@ -152,7 +166,7 @@ async def detect_trash(
         user_id=user_id,
         trash_bin_id=trash_bin.id,
         trash_category_id=trash_category_id,
-        image_url=None,
+        image_url=saved_image_url,
         points_earned=reward_points
     )
     db.add(new_history)
