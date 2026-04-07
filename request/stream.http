@@ -1,0 +1,7 @@
+### Test SSE (Server-Sent Events) Dashboard
+### Replace <YOUR_ACCESS_TOKEN> with a valid JWT token obtained from login
+GET http://127.0.0.1:8000/stream/dashboard
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzc1NjEyNjc3LCJ0eXBlIjoiYWNjZXNzIn0.9JuhXCsp91WuBoL-vH6v-ccr3Dt-ajvliSpeFAbW8Mo
+Accept: text/event-stream
+
+

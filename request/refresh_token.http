@@ -4,6 +4,6 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "refresh_token": "<masukkan_refresh_token_disini>"
+  "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzc1NjEyNjc3LCJ0eXBlIjoicmVmcmVzaCJ9.YaRGeGYW8DX7a5CMUY9MjGIf-970V1zQL2JMRLIaclU"
 }
 
