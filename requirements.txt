@@ -1,3 +1,4 @@
+pillow
 pydantic
 starlette
 fastapi
