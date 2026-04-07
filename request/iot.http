@@ -11,7 +11,7 @@ Content-Disposition: form-data; name="qr_code"
 Content-Disposition: form-data; name="image"; filename="sample_trash.jpg"
 Content-Type: image/jpeg
 
-< ./roblox.png
+< ./battery.png
 --boundary--
 
 ### Update Capacity (IoT ESP32 hit)
