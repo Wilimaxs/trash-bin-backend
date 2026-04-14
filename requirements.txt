@@ -13,3 +13,4 @@ python-dotenv
 resend
 email-validator
 tzdata
+psycopg2-binary

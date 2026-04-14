@@ -42,7 +42,7 @@ except Exception as e:
     print(f"Error loading YOLO model: {e}")
 
 @router.post("/detect")
-async def detect_trash(
+def detect_trash(
     qr_code: str = Form(..., description="UUID / QR Code of the trash bin"),
     image: UploadFile = File(..., description="Image captured by ESP32 camera"),
     db: Session = Depends(get_db)
@@ -86,7 +86,7 @@ async def detect_trash(
     saved_image_url = None
     try:
         # Proses gambar menjadi format yang bisa dibaca YOLO (seperti PIL Image)
-        image_bytes = await image.read()
+        image_bytes = image.file.read()
         
         # Simpan gambar
         ext = image.filename.split('.')[-1] if image.filename and '.' in image.filename else 'jpg'
