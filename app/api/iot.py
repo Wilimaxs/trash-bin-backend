@@ -26,11 +26,17 @@ router = APIRouter(prefix="/iot", tags=["iot"])
 # Set timeout 5 menit
 IDLE_TIMEOUT_MINUTES = 5
 
-# Load model secara global agar tidak me-load ulang setiap request masuk
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Ambil direktori paling luar (root project) di Docker
+BASE_DIR = os.getcwd()
 MODEL_PATH = os.path.join(BASE_DIR, "ml_model", "version1.pt")
 UPLOAD_DIR = os.path.join(BASE_DIR, "public", "disposals")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+# Tambahkan print ini biar kita bisa ngintip terminal Docker-nya
+print("====== DEBUG MODEL YOLO ======")
+print(f"Mencari model di folder: {MODEL_PATH}")
+print(f"Apakah filenya beneran ada?: {os.path.exists(MODEL_PATH)}")
+print("==============================")
 
 try:
     if YOLO is not None and os.path.exists(MODEL_PATH):
