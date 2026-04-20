@@ -126,5 +126,10 @@ async def stream_dashboard(
     """
     return StreamingResponse(
         dashboard_event_generator(request, current_user.id), 
-        media_type="text/event-stream"
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no"
+        }
     )
