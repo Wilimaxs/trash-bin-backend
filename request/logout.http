@@ -1,5 +1,6 @@
-### Get User Profile
-GET http://127.0.0.1:8000/user/profile
+### Logout User
+POST http://127.0.0.1:8000/auth/logout
+Content-Type: application/json
 Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzc2NzMyOTEwLCJ0eXBlIjoiYWNjZXNzIn0.AnaUB17pYX4FwJEqOQntSy7kBeaV2ov_EgcEy03FGT4
 
