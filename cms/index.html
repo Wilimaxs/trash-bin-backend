@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>EcoSort Admin Panel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap"
+          rel="stylesheet"/>
+
+    <!--suppress JSUnresolvedLibraryURL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <link rel="stylesheet" href="style.css"/>
+    <script src="app.js" defer></script>
+</head>
+<body>
+
+<aside class="sidebar">
+    <div class="logo-mark">
+        <div class="logo-icon">♻️</div>
+        <div>
+            <div class="logo-text">EcoSort</div>
+            <div class="logo-sub">Admin Panel</div>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebar-nav">
+        <div class="nav-section-label">Menu Utama</div>
+
+        <div class="nav-item active" data-page="reward">
+            <div class="nav-active-bar"></div>
+            <span class="nav-icon">⭐</span>
+            <span>Point Reward</span>
+            <span class="nav-badge" id="badge-reward">0</span>
+        </div>
+
+        <div class="nav-item" data-page="upload">
+            <div class="nav-active-bar"></div>
+            <span class="nav-icon">📤</span>
+            <span>Upload Model</span>
+        </div>
+
+        <div class="nav-item" data-page="device">
+            <div class="nav-active-bar"></div>
+            <span class="nav-icon">🗑️</span>
+            <span>Kelola Device</span>
+            <span class="nav-badge" id="badge-device">0</span>
+        </div>
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="admin-badge">
+            <div class="admin-avatar">👤</div>
+            <div class="admin-info">
+                <div class="name">Administrator</div>
+                <div class="role">Full Access</div>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<main class="main">
+    <div class="topbar">
+        <div>
+            <div class="topbar-title" id="topbar-title">Point Reward</div>
+            <div class="topbar-breadcrumb">Admin / <span id="topbar-sub">Manajemen Poin</span></div>
+        </div>
+        <div class="status-dot">API Connected</div>
+    </div>
+
+    <div class="page-content active" id="page-reward">
+        <div class="page-header">
+            <div>
+                <div class="page-title">
+                    <div class="title-icon">⭐</div>
+                    Point Reward
+                </div>
+                <div class="page-desc">Kelola aturan poin reward berdasarkan tipe kompartemen dan sub-kategori sampah.
+                </div>
+            </div>
+            <button class="btn btn-primary btn-open-modal" data-modal="modal-reward">+ Tambah Reward</button>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-label">Total Aturan</div>
+                <div class="stat-value green" id="s-r-total">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Poin Tertinggi</div>
+                <div class="stat-value amber" id="s-r-max">0</div>
+                <div class="stat-change" id="s-r-max-lbl">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Poin Terendah</div>
+                <div class="stat-value" id="s-r-min">0</div>
+                <div class="stat-change" id="s-r-min-lbl">-</div>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <div class="table-header">
+                <div class="table-title">Daftar Reward <span class="table-count" id="cnt-reward">0 data</span></div>
+                <div class="table-actions">
+                    <input class="search-input" id="search-reward" name="search-reward" title="Search reward"
+                           aria-label="Search reward" placeholder="🔍  Cari reward…"/>
+                </div>
+            </div>
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Compartment Type</th>
+                        <th>Sub Category</th>
+                        <th>Reward Points</th>
+                        <th>Aksi</th>
+                    </tr>
+                    </thead>
+                    <tbody id="reward-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content" id="page-upload">
+        <div class="page-header">
+            <div>
+                <div class="page-title">
+                    <div class="title-icon">📤</div>
+                    Upload Model ML
+                </div>
+                <div class="page-desc">Replace file model ML di server. Target: <code class="code-target">ml_model/version1.pt</code>
+                </div>
+            </div>
+        </div>
+
+        <div class="upload-section">
+            <div class="upload-card">
+                <div class="upload-card-title">🔧 Upload &amp; Replace Model</div>
+
+                <div class="form-group">
+                    <label class="form-label" for="upload-subcat">Sub Category</label>
+                    <input type="text" class="form-input" id="upload-subcat" name="upload-subcat"
+                           placeholder="Contoh: Pecahan kaca, Plastik PET, Kaleng aluminium…"/>
+                    <div class="form-hint">Ketik nama sub kategori sampah yang sesuai dengan model ini.</div>
+                </div>
+
+                <div class="dropzone" id="dropzone">
+                    <label for="file-input" style="display:none;">File model</label>
+                    <input type="file" id="file-input" name="file-input" accept=".pt,.pth,.bin,.onnx"
+                           aria-label="File upload"/>
+                    <div class="dropzone-icon">🤖</div>
+                    <div class="dropzone-title">Drop file model di sini</div>
+                    <div class="dropzone-sub">atau <span class="dropzone-accent">klik untuk browse</span></div>
+                    <div class="dropzone-sub dropzone-format">Format: .pt .pth .bin .onnx</div>
+                </div>
+
+                <div class="file-info-box" id="file-info">
+                    <div class="file-name" id="fname">—</div>
+                    <div class="file-size" id="fsize">—</div>
+                </div>
+
+                <div class="upload-progress" id="uprog">
+                    <div class="progress-text"><span>Mengupload…</span><span class="progress-pct" id="upct">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="ufill"></div>
+                    </div>
+                </div>
+
+                <div class="upload-actions">
+                    <button class="btn btn-primary" id="btn-upload-submit">📤 Upload &amp; Replace</button>
+                    <button class="btn btn-outline" id="btn-upload-reset">Reset</button>
+                </div>
+            </div>
+
+            <div class="file-path-container">
+                <div class="file-path-card">
+                    <div class="upload-card-title card-title-mb">📁 Struktur File Target</div>
+                    <div class="file-tree">
+                        <span class="folder">📂 project-root/</span>
+                        <span class="i1">📂 <span class="folder">backend/</span></span>
+                        <span class="i2">📄 main.py</span>
+                        <span class="i1">📂 <span class="folder">ml_model/</span></span>
+                        <span class="i2">📄 <span class="target">⚡ version1.pt</span>  ← Target</span>
+                        <span class="i1">📂 <span class="folder">static/</span></span>
+                        <span class="i2">📄 …</span>
+                    </div>
+                </div>
+                <div class="file-path-card">
+                    <div class="upload-card-title card-title-sm">ℹ️ Model Aktif</div>
+                    <div class="active-model-info">
+                        <div class="info-row">
+                            <span class="info-label">File aktif</span>
+                            <span class="info-val code-target">version1.pt</span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="info-row">
+                            <span class="info-label">Ukuran</span>
+                            <span>142.8 MB</span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="info-row">
+                            <span class="info-label">Format</span>
+                            <span class="info-val code-amber">.pt (PyTorch)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content" id="page-device">
+        <div class="page-header">
+            <div>
+                <div class="page-title">
+                    <div class="title-icon">🗑️</div>
+                    Kelola Device
+                </div>
+                <div class="page-desc">Kelola data tempat sampah pintar — lokasi, kapasitas, dan QR code perangkat.
+                </div>
+            </div>
+            <button class="btn btn-primary btn-open-modal" data-modal="modal-device">+ Tambah Device</button>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-label">Total Device</div>
+                <div class="stat-value" id="s-d-total">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Kap. Organik</div>
+                <div class="stat-value green" id="s-d-org">0 L</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Kap. Anorganik</div>
+                <div class="stat-value blue" id="s-d-inorg">0 L</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Kap. B3</div>
+                <div class="stat-value red" id="s-d-b3">0 L</div>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <div class="table-header">
+                <div class="table-title">Daftar Device <span class="table-count" id="cnt-device">0 data</span></div>
+                <div class="table-actions">
+                    <input class="search-input" id="search-device" name="search-device" title="Search device"
+                           aria-label="Search device" placeholder="🔍  Cari device…"/>
+                </div>
+            </div>
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>QR Code</th>
+                        <th>QR Image</th>
+                        <th>Location Name</th>
+                        <th>Kapasitas</th>
+                        <th>Aksi</th>
+                    </tr>
+                    </thead>
+                    <tbody id="device-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="modal-overlay" id="modal-reward">
+    <div class="modal">
+        <div class="modal-header">
+            <div class="modal-title" id="mtitle-reward">⭐ Tambah Reward</div>
+            <button class="modal-close btn-close-modal" data-modal="modal-reward">✕</button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="r-edit-id" name="r-edit-id"/>
+            <div class="form-group">
+                <label class="form-label" for="r-compartment">Compartment Type</label>
+                <select class="form-select" id="r-compartment" name="r-compartment">
+                    <option value="">-- Pilih Compartment --</option>
+                    <option value="organik">Organik</option>
+                    <option value="anorganik">Anorganik</option>
+                    <option value="b3">B3</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="r-subcategory">Sub Category</label>
+                <select class="form-select" id="r-subcategory" name="r-subcategory">
+                    <option value="">-- Pilih Sub Category --</option>
+                    <option value="plastik">Plastik</option>
+                    <option value="kertas">Kertas</option>
+                    <option value="kaca">Kaca</option>
+                    <option value="logam">Logam</option>
+                    <option value="sisa_makanan">Sisa Makanan</option>
+                    <option value="daun">Daun / Tanaman</option>
+                    <option value="baterai">Baterai</option>
+                    <option value="elektronik">Elektronik</option>
+                    <option value="kimia">Kimia Berbahaya</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="r-points">Reward Points</label>
+                <input type="number" class="form-input" id="r-points" name="r-points" placeholder="Contoh: 25" min="1"/>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline btn-close-modal" data-modal="modal-reward">Batal</button>
+            <button class="btn btn-primary" id="btn-save-reward">💾 Simpan</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-device">
+    <div class="modal">
+        <div class="modal-header">
+            <div class="modal-title" id="mtitle-device">🗑️ Tambah Device</div>
+            <button class="modal-close btn-close-modal" data-modal="modal-device">✕</button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="d-edit-id" name="d-edit-id"/>
+            <div class="form-group">
+                <label class="form-label" for="d-qr">QR Code</label>
+                <input type="text" class="form-input" id="d-qr" name="d-qr" placeholder="Contoh: QR-TPS-001"/>
+                <div class="qr-modal-wrap">
+                    <div class="qr-modal-box" id="mqr-box">
+                        <span class="qr-preview-text">QR Preview</span>
+                    </div>
+                    <div class="qr-modal-info">
+                        <div class="hint">QR di-generate otomatis dari teks QR Code.</div>
+                        <div class="val" id="mqr-val">—</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="d-location">Location Name</label>
+                <input type="text" class="form-input" id="d-location" name="d-location"
+                       placeholder="Contoh: TPS Blok A – Gedung Utama"/>
+            </div>
+            <div class="form-group">
+                <div class="form-label capacity-header">Kapasitas (Liter)</div>
+                <div class="capacity-group">
+                    <div>
+                        <label class="capacity-label" for="d-cap-org">
+                            <div class="dot dot-org"></div>
+                            Organik</label>
+                        <input type="number" class="form-input" id="d-cap-org" name="d-cap-org" placeholder="30"
+                               min="0"/>
+                    </div>
+                    <div>
+                        <label class="capacity-label" for="d-cap-inorg">
+                            <div class="dot dot-inorg"></div>
+                            Anorganik</label>
+                        <input type="number" class="form-input" id="d-cap-inorg" name="d-cap-inorg" placeholder="30"
+                               min="0"/>
+                    </div>
+                    <div>
+                        <label class="capacity-label" for="d-cap-b3">
+                            <div class="dot dot-b3"></div>
+                            B3</label>
+                        <input type="number" class="form-input" id="d-cap-b3" name="d-cap-b3" placeholder="10" min="0"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline btn-close-modal" data-modal="modal-device">Batal</button>
+            <button class="btn btn-primary" id="btn-save-device">💾 Simpan</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container" id="toasts"></div>
+
+</body>
+</html>
