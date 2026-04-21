@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Smart Trash Bin RVM — Tugas Akhir</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+          rel="stylesheet"/>
+
+    <link rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+
+<nav>
+    <div class="nav-logo">
+        SmartBin RVM
+        <span>Tugas Akhir — Sistem IoT</span>
+    </div>
+    <ul class="nav-links">
+        <li><a href="#about">Tentang Alat</a></li>
+        <li><a href="#how">Cara Kerja</a></li>
+        <li><a href="#tech">Teknologi</a></li>
+        <li><a href="#demo">Demo</a></li>
+        <li><a href="#download">Unduh Aplikasi</a></li>
+    </ul>
+    <a href="#download" class="nav-cta">↓ Download APK</a>
+</nav>
+
+<section class="hero">
+    <div class="hero-badge fade-up">Tugas Akhir</div>
+    <h1 class="fade-up delay-1">
+        <em>Smart Trash Bin</em><br/>Reverse Vending Machine
+    </h1>
+    <p class="hero-subtitle fade-up delay-2">
+        Tempat sampah pintar berbasis IoT dengan sistem pemilahan otomatis menggunakan kecerdasan buatan,
+        dirancang untuk mendukung pengelolaan sampah berkelanjutan.
+    </p>
+    <div class="hero-actions fade-up delay-3">
+        <a href="#how" class="btn-primary">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Cara Kerja
+        </a>
+        <a href="#download" class="btn-secondary">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Unduh Aplikasi
+        </a>
+    </div>
+    <div class="scroll-hint">
+        <span>SCROLL</span>
+        <svg width="16" height="24" fill="none" viewBox="0 0 16 24" stroke="currentColor" stroke-width="1.5">
+            <rect x="1" y="1" width="14" height="22" rx="7"/>
+            <line x1="8" y1="6" x2="8" y2="10"/>
+        </svg>
+    </div>
+</section>
+
+<div class="stats-bar">
+    <div class="container">
+        <div class="stat">
+            <div class="stat-value">3</div>
+            <div class="stat-label">Kompartemen Sampah</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">55cm</div>
+            <div class="stat-label">Diameter Silinder</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">90cm</div>
+            <div class="stat-label">Tinggi Unit</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">ESP32</div>
+            <div class="stat-label">Mikrokontroler</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">E-Incentive</div>
+            <div class="stat-label">Point Based</div>
+        </div>
+    </div>
+</div>
+
+<section class="device-section" id="about">
+    <div class="container">
+        <div class="section-label">// Tentang Alat</div>
+        <h2 class="section-title">Deskripsi Smart Trash Bin RVM</h2>
+        <div class="divider"></div>
+        <p class="section-desc">
+            Sistem pemilahan sampah otomatis berbasis AI dirancang dalam bentuk silinder dengan mekanisme pemilah
+            putar yang mampu mengelompokkan sampah ke kompartemen yang sesuai. Sistem ini juga terintegrasi dengan fitur
+            reward berbasis poin, sehingga pengguna mendapatkan insentif setiap melakukan pembuangan sampah dengan
+            benar.
+        </p>
+
+        <div class="device-grid" style="margin-top:48px;">
+            <div class="img-placeholder tall" title="Ganti dengan foto alat sebenarnya">
+                <div class="img-tag">📷 Foto Utama Alat</div>
+                <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"
+                     color="#4a8a54">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                <span>Foto Alat Smart Trash Bin RVM<br/><small>Tampak Keseluruhan</small></span>
+            </div>
+
+            <div class="device-info fade-up">
+                <div>
+                    <h3 style="font-family:'DM Serif Display',serif; font-size:1.5rem; color:var(--white); margin-bottom:12px;">
+                        Desain Silinder Terpadu
+                    </h3>
+                    <p style="color:var(--text-muted); font-size:.92rem; line-height:1.75;">
+                        Unit dirancang dalam bentuk silinder dengan diameter <strong style="color:var(--text)">55
+                        cm</strong> dan
+                        tinggi <strong style="color:var(--text)">90 cm</strong>. Di dalam unit terdapat tiga sekat
+                        terpisah untuk
+                        pemilahan sampah organik, anorganik, dan B3, memastikan tidak ada kontaminasi antar jenis
+                        sampah.
+                    </p>
+                </div>
+
+                <div>
+                    <p style="color:var(--text-muted); font-size:.88rem; margin-bottom:10px; font-family:'JetBrains Mono',monospace; letter-spacing:.04em;">
+                        SPESIFIKASI FISIK</p>
+                    <div class="spec-chips">
+                        <span class="spec-chip">⌀ 55 cm Diameter</span>
+                        <span class="spec-chip">↕ 90 cm Tinggi</span>
+                        <span class="spec-chip">3 Kompartemen</span>
+                        <span class="spec-chip">Bentuk Silinder</span>
+                        <span class="spec-chip">Tilt Mechanism</span>
+                        <span class="spec-chip">Rotating Disk</span>
+                    </div>
+                </div>
+
+                <div>
+                    <p style="color:var(--text-muted); font-size:.88rem; margin-bottom:10px; font-family:'JetBrains Mono',monospace; letter-spacing:.04em;">
+                        KOMPONEN UTAMA</p>
+                    <div class="spec-chips">
+                        <span class="spec-chip">📷 Kamera ESP32-CAM</span>
+                        <span class="spec-chip">🧠 Computer Vision</span>
+                        <span class="spec-chip">🔄 Motor Servo</span>
+                        <span class="spec-chip">🔄 Motor Servo</span>
+                        <span class="spec-chip">📡 WiFi IoT</span>
+                        <span class="spec-chip">📱 Mobile App</span>
+                    </div>
+                </div>
+
+                <div class="img-placeholder medium" title="Ganti dengan foto detail komponen">
+                    <div class="img-tag">📷 Detail Komponen</div>
+                    <svg width="36" height="36" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"
+                         color="#4a8a54">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    <span>Foto Bagian Atas / Mekanisme Piringan<br/><small>Tampak Detail Filter</small></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="how-section" id="how">
+    <div class="container">
+        <div class="section-label">// Cara Kerja</div>
+        <h2 class="section-title">2 Mode Pemilahan Sampah</h2>
+        <div class="divider"></div>
+        <p class="section-desc">
+            Smart Trash Bin RVM mendukung dua mode penggunaan: pembuangan standar secara langsung, dan pembuangan
+            menggunakan aplikasi untuk mendapatkan <em>reward</em> poin.
+        </p>
+
+        <h3 style="color:var(--white); font-family:'DM Serif Display',serif; font-size: 1.5rem; margin-top:40px; margin-bottom:16px;">
+            Mode 1: Pembuangan Standar (Tanpa Aplikasi)
+        </h3>
+        <div class="steps-grid fade-up delay-1">
+            <div class="step-card">
+                <div class="step-num">01</div>
+                <div class="step-title">Penempatan Sampah</div>
+                <div class="step-desc">
+                    Pengguna meletakkan sampah di atas piringan pemilah yang berada di bagian tengah tutup unit.
+                </div>
+            </div>
+            <div class="step-card">
+                <div class="step-num">02</div>
+                <div class="step-title">Deteksi Kamera</div>
+                <div class="step-desc">
+                    Kamera ESP32-CAM mengambil gambar sampah dan mengirimkan data ke sistem AI untuk diidentifikasi.
+                </div>
+            </div>
+            <div class="step-card">
+                <div class="step-num">03</div>
+                <div class="step-title">Klasifikasi AI</div>
+                <div class="step-desc">
+                    Model kecerdasan buatan memproses gambar dan mengklasifikasikan jenis sampah: Organik, Anorganik,
+                    atau B3.
+                </div>
+            </div>
+            <div class="step-card">
+                <div class="step-num">04</div>
+                <div class="step-title">Tilt Mechanism</div>
+                <div class="step-desc">
+                    Piringan pemilah memiringkan dirinya (<em>tilt</em>) untuk memosisikan sampah agar siap diarahkan.
+                </div>
+            </div>
+            <div class="step-card">
+                <div class="step-num">05</div>
+                <div class="step-title">Rotasi ke Kompartemen</div>
+                <div class="step-desc">
+                    Motor menggerakkan piringan berputar sejajar dengan bukaan kompartemen yang sesuai, lalu sampah
+                    masuk.
+                </div>
+            </div>
+        </div>
+
+        <h3 style="color:var(--amber); font-family:'DM Serif Display',serif; font-size: 1.5rem; margin-top:60px; margin-bottom:16px;">
+            Mode 2: Pembuangan via Aplikasi (Reward Poin)
+        </h3>
+        <div class="steps-grid fade-up delay-2">
+            <div class="step-card" style="border-top: 3px solid var(--amber);">
+                <div class="step-num" style="color: rgba(212,147,58,0.2);">01</div>
+                <div class="step-title" style="color: var(--amber);">Scan QR Code</div>
+                <div class="step-desc">
+                    Pengguna memindai QR Code pada unit RVM menggunakan aplikasi mobile untuk memulai sesi pembuangan
+                    dan autentikasi akun.
+                </div>
+            </div>
+            <div class="step-card">
+                <div class="step-num">02</div>
+                <div class="step-title">Penempatan Sampah</div>
+                <div class="step-desc">
+                    Setelah sesi aktif, pengguna meletakkan sampah di atas piringan penerimaan pada tutup unit.
+                </div>
+            </div>
+            <div class="step-card">
+                <div class="step-num">03</div>
+                <div class="step-title">Deteksi & Klasifikasi AI</div>
+                <div class="step-desc">
+                    Kamera mengambil gambar sampah, lalu sistem AI langsung memproses dan mengidentifikasi kategori
+                    sampah secara <em>real-time</em>.
+                </div>
+            </div>
+            <div class="step-card">
+                <div class="step-num">04</div>
+                <div class="step-title">Tilt Mechanism</div>
+                <div class="step-desc">
+                    Piringan pemilah memiringkan sampah ke posisi presisi sebelum rotasi dilakukan.
+                </div>
+            </div>
+            <div class="step-card">
+                <div class="step-num">05</div>
+                <div class="step-title">Rotasi ke Kompartemen</div>
+                <div class="step-desc">
+                    Motor memutar piringan dan menjatuhkan sampah masuk ke dalam kompartemen yang tepat.
+                </div>
+            </div>
+            <div class="step-card" style="border-top: 3px solid var(--green-li);">
+                <div class="step-num" style="color: rgba(106,184,122,0.2);">06</div>
+                <div class="step-title" style="color: var(--green-li);">Monitoring & Reward Poin</div>
+                <div class="step-desc">
+                    Proses pemilahan dipantau secara <em>real-time</em> di aplikasi menggunakan koneksi <strong>SSE
+                    (Server-Sent Events)</strong>. Setelah selesai, pengguna langsung menerima tambahan poin.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="compartment-section" id="compartment">
+    <div class="container">
+        <div class="section-label">// Kompartemen</div>
+        <h2 class="section-title">3 Kategori Pemilahan Sampah</h2>
+        <div class="divider"></div>
+        <div class="comp-grid fade-up delay-1">
+            <div class="comp-card organic">
+                <div class="comp-icon o">🌿</div>
+                <div class="comp-name">Organik</div>
+                <div class="comp-desc">
+                    Sampah yang dapat terurai secara alami oleh mikroorganisme.
+                    Cocok untuk dijadikan kompos dan pupuk alami.
+                </div>
+                <div class="comp-examples">
+                    <span class="tag">apple_waste</span>
+                    <span class="tag">banana-peel</span>
+                    <span class="tag">orange-peel</span>
+                    <span class="tag">sampah_daun</span>
+                </div>
+            </div>
+            <div class="comp-card anorganic">
+                <div class="comp-icon a">♻️</div>
+                <div class="comp-name">Anorganik</div>
+                <div class="comp-desc">
+                    Sampah yang tidak mudah terurai, namun dapat didaur ulang menjadi
+                    produk baru dengan nilai ekonomis.
+                </div>
+                <div class="comp-examples">
+                    <span class="tag">bottle</span>
+                    <span class="tag">paper</span>
+                    <span class="tag">paper cup</span>
+                    <span class="tag">plastic-bag</span>
+                    <span class="tag">styrofoam</span>
+                </div>
+            </div>
+            <div class="comp-card b3">
+                <div class="comp-icon b">⚠️</div>
+                <div class="comp-name">B3</div>
+                <div class="comp-desc">
+                    Bahan Berbahaya dan Beracun yang memerlukan penanganan khusus
+                    agar tidak mencemari lingkungan dan membahayakan kesehatan.
+                </div>
+                <div class="comp-examples">
+                    <span class="tag">battery</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mechanism-section">
+    <div class="container">
+        <div class="section-label">// Detail Mekanisme</div>
+        <h2 class="section-title">Mekanisme Tutup & Piringan Filter</h2>
+        <div class="divider"></div>
+        <div class="mechanism-layout fade-up delay-1">
+            <div class="mechanism-steps">
+                <div class="mstep">
+                    <div class="mstep-dot">A</div>
+                    <div class="mstep-content">
+                        <div class="mstep-title">Cincin Ganggang (Handle Ring)</div>
+                        <div class="mstep-desc">
+                            Terdapat struktur berupa cincin/lingkaran yang melebar keluar di bagian atas unit.
+                            Fungsinya sebagai pegangan ergonomis sekaligus dudukan komponen elektronik.
+                        </div>
+                    </div>
+                </div>
+                <div class="mstep">
+                    <div class="mstep-dot">B</div>
+                    <div class="mstep-content">
+                        <div class="mstep-title">Kamera ESP32-CAM</div>
+                        <div class="mstep-desc">
+                            Kamera dipasang pada bagian paling atas cincin, sejajar dengan tutup filter.
+                            Posisi ini memastikan sudut pandang optimal untuk membaca jenis sampah yang dimasukkan.
+                        </div>
+                    </div>
+                </div>
+                <div class="mstep">
+                    <div class="mstep-dot">C</div>
+                    <div class="mstep-content">
+                        <div class="mstep-title">Tutup Filter Tengah Bolong</div>
+                        <div class="mstep-desc">
+                            Tutup unit memiliki lubang di bagian tengah sebagai jalur masuk sampah.
+                            Di atas lubang inilah piringan pemilah (rotating disk) ditempatkan.
+                        </div>
+                    </div>
+                </div>
+                <div class="mstep">
+                    <div class="mstep-dot">D</div>
+                    <div class="mstep-content">
+                        <div class="mstep-title">Rotating Disk + Tilt Mechanism</div>
+                        <div class="mstep-desc">
+                            Piringan berputar mencari kompartemen yang sesuai berdasarkan hasil klasifikasi AI,
+                            sementara mekanisme miring (tilt) memastikan sampah jatuh tepat ke dalamnya.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:16px;">
+                <div class="img-placeholder tall" title="Ganti dengan foto/diagram mekanisme">
+                    <div class="img-tag">📷 Diagram Mekanisme</div>
+                    <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"
+                         color="#4a8a54">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    <span>Foto / Diagram Potongan Melintang Alat<br/><small>Tampak Dalam — Mekanisme Piringan</small></span>
+                </div>
+                <div class="img-placeholder medium">
+                    <div class="img-tag">📷 Tampak Atas</div>
+                    <svg width="36" height="36" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"
+                         color="#4a8a54">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    <span>Foto Bagian Atas Alat<br/><small>Tampak Tutup + Kamera</small></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="tech-section" id="tech">
+    <div class="container">
+        <div class="section-label">// Teknologi</div>
+        <h2 class="section-title">Stack Teknologi yang Digunakan</h2>
+        <div class="divider"></div>
+        <p class="section-desc">
+            Sistem mengintegrasikan perangkat keras IoT dengan perangkat lunak mobile
+            dan layanan cloud untuk pemrosesan data dan monitoring real-time.
+        </p>
+        <div class="tech-grid fade-up delay-1">
+            <div class="tech-card">
+                <div class="tech-card-label">Mikrokontroler</div>
+                <div class="tech-card-value">ESP32</div>
+                <div class="tech-card-desc">Kontrol motor, WiFi, dan koordinasi antar komponen</div>
+            </div>
+            <div class="tech-card">
+                <div class="tech-card-label">Kamera</div>
+                <div class="tech-card-value">OV2640</div>
+                <div class="tech-card-desc">Pengambilan gambar dengan camera yang support dengan esp32</div>
+            </div>
+            <div class="tech-card">
+                <div class="tech-card-label">Machine Learning</div>
+                <div class="tech-card-value">Image Classification</div>
+                <div class="tech-card-desc">Model Yolov8n untuk pengenalan dan klasifikasi jenis sampah</div>
+            </div>
+            <div class="tech-card">
+                <div class="tech-card-label">Aktuator</div>
+                <div class="tech-card-value">Motor Servo</div>
+                <div class="tech-card-desc">Menggerakkan piringan rotasi dan mekanisme tilt</div>
+            </div>
+            <div class="tech-card">
+                <div class="tech-card-label">Protokol IoT</div>
+                <div class="tech-card-value">HTTP</div>
+                <div class="tech-card-desc">Komunikasi data real-time antara hardware dan aplikasi</div>
+            </div>
+            <div class="tech-card">
+                <div class="tech-card-label">Aplikasi Mobile</div>
+                <div class="tech-card-value">Jetpack Compose</div>
+                <div class="tech-card-desc">Monitoring kapasitas, riwayat, dan stream data pembuangan</div>
+            </div>
+            <div class="tech-card">
+                <div class="tech-card-label">Backend</div>
+                <div class="tech-card-value">FastAPI</div>
+                <div class="tech-card-desc">Pengolahan AI dan struktur data system</div>
+            </div>
+            <div class="tech-card">
+                <div class="tech-card-label">Database</div>
+                <div class="tech-card-value">PostgreSQL</div>
+                <div class="tech-card-desc">Manajemen data terpusat untuk backend API dan analisis visual.</div>
+            </div>
+            <div class="tech-card">
+                <div class="tech-card-label">Konektivitas IoT</div>
+                <div class="tech-card-value">WiFi 2.4GHz</div>
+                <div class="tech-card-desc">Koneksi nirkabel untuk integrasi dengan sistem backend</div>
+            </div>
+            <div class="tech-card">
+                <div class="tech-card-label">Cloud</div>
+                <div class="tech-card-value">VPS</div>
+                <div class="tech-card-desc">Hosting terpusat untuk deployment backend API, database, dan pemrosesan
+                    model AI.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="video-section" id="demo">
+    <div class="container">
+        <div class="section-label">// Demo & Pengujian</div>
+        <h2 class="section-title">Video Demonstrasi Alat</h2>
+        <div class="divider"></div>
+        <p class="section-desc">
+            Dokumentasi video proses pemilahan sampah secara otomatis dan pengujian
+            performa sistem dalam kondisi nyata.
+        </p>
+        <div class="video-grid fade-up delay-1">
+            <div class="video-placeholder" title="Tambahkan video demo di sini">
+                <div class="video-tag">🎬 VIDEO_DEMO_01</div>
+                <div class="video-play">▶</div>
+                <div class="video-label">
+                    <strong>Demo Pemilahan Otomatis</strong>
+                    Ganti dengan video saat alat memilah sampah secara otomatis
+                </div>
+            </div>
+            <div class="video-placeholder" title="Tambahkan video pengujian di sini">
+                <div class="video-tag">🎬 VIDEO_DEMO_02</div>
+                <div class="video-play">▶</div>
+                <div class="video-label">
+                    <strong>Pengujian Sistem Kamera & AI</strong>
+                    Ganti dengan video pengujian deteksi dan klasifikasi sampah
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="gallery-section">
+    <div class="container">
+        <div class="section-label">// Galeri</div>
+        <h2 class="section-title">Dokumentasi Foto Alat</h2>
+        <div class="divider"></div>
+        <div class="gallery-grid fade-up delay-1">
+            <div class="gallery-item">
+                <div class="img-placeholder wide">
+                    <div class="img-tag">📷 Gallery 1</div>
+                    <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"
+                         color="#4a8a54">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    <span style="font-size:.75rem">Tampak Depan</span>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="img-placeholder wide">
+                    <div class="img-tag">📷 Gallery 2</div>
+                    <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"
+                         color="#4a8a54">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    <span style="font-size:.75rem">Tampak Samping</span>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="img-placeholder wide">
+                    <div class="img-tag">📷 Gallery 3</div>
+                    <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"
+                         color="#4a8a54">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    <span style="font-size:.75rem">Bagian Dalam</span>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="img-placeholder wide">
+                    <div class="img-tag">📷 Gallery 4</div>
+                    <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"
+                         color="#4a8a54">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    <span style="font-size:.75rem">Detail Kamera ESP32</span>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="img-placeholder wide">
+                    <div class="img-tag">📷 Gallery 5</div>
+                    <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"
+                         color="#4a8a54">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    <span style="font-size:.75rem">Mekanisme Piringan</span>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="img-placeholder wide">
+                    <div class="img-tag">📷 Gallery 6</div>
+                    <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"
+                         color="#4a8a54">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    <span style="font-size:.75rem">Screenshot Aplikasi</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="download-section" id="download">
+    <div class="container">
+        <div class="section-label">// Aplikasi Mobile</div>
+        <h2 class="section-title">Unduh Aplikasi Monitoring</h2>
+        <div class="divider"></div>
+        <div class="download-card fade-up delay-1">
+            <div>
+                <div class="download-title">SmartBin RVM Monitor</div>
+                <p class="download-desc">
+                    Aplikasi mobile untuk stream kapasitas sampah, stream pembuangan sampah dan melihat riwayat
+                    pemilahan dari Smart Trash Bin RVM Anda.
+                    Dibangun dengan Native Android dan terintegrasi dengan sistem IoT.
+                </p>
+
+                <div class="img-placeholder medium" style="max-width:420px;" title="Ganti dengan screenshot aplikasi">
+                    <div class="img-tag">📱 Screenshot Aplikasi</div>
+                    <svg width="36" height="36" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"
+                         color="#4a8a54">
+                        <rect x="5" y="2" width="14" height="20" rx="2"/>
+                        <line x1="12" y1="18" x2="12" y2="18"/>
+                    </svg>
+                    <span>Screenshot Tampilan Aplikasi Mobile<br/><small>Ganti dengan gambar nyata</small></span>
+                </div>
+
+                <div class="download-meta">
+                    <div class="download-meta-item">
+                        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                             stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        Android 7.2+
+                    </div>
+                    <div class="download-meta-item">
+                        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                             stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        Jetpack Compose · MVVM State Management
+                    </div>
+                    <div class="download-meta-item">
+                        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                             stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        Versi 1.0.0
+                    </div>
+                </div>
+            </div>
+
+            <div class="download-btn">
+                <a href="#" class="btn-download disabled" download title="Download APK Aplikasi">
+                    <span class="btn-download-icon">⏳</span>
+                    <span class="btn-download-text">Segera Hadir</span>
+                    <span class="btn-download-sub">10 - Mei - 2026</span>
+                </a>
+                <div class="download-warning">
+                    ⚠ Aktifkan "Sumber Tidak Dikenal" di pengaturan Android
+                </div>
+                <div style="color:var(--text-dim);font-size:.72rem;margin-top:8px;text-align:center;font-family:'JetBrains Mono',monospace;">
+                    Tidak tersedia di Play Store
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-name">Smart Trash Bin RVM</div>
+    <div class="footer-sub">
+        Tugas Akhir · Sistem IoT Pemilahan Sampah Otomatis
+    </div>
+    <div class="footer-divider"></div>
+    <p class="footer-copy">
+        © 2026 — Proyek Skripsi. Dibuat untuk keperluan akademis.
+    </p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
