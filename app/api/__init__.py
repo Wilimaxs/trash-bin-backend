@@ -14,6 +14,7 @@ from app.api.iot import router as iot_router
 from app.api.stream import router as stream_router
 from app.api.refresh_token import router as refresh_token_router
 from app.api.admin_reward_point import router as admin_reward_point_router
+from app.api.admin_device import router as admin_device_router
 
 
 api_router = APIRouter()
@@ -31,3 +32,4 @@ api_router.include_router(iot_router)
 api_router.include_router(stream_router)
 api_router.include_router(refresh_token_router)
 api_router.include_router(admin_reward_point_router)
+api_router.include_router(admin_device_router)

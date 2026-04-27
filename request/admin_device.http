@@ -1,0 +1,32 @@
+### Get All Devices
+GET http://localhost:8000/admin/device/
+Accept: application/json
+
+###
+
+### Create a New Device
+POST http://localhost:8000/admin/device/
+Content-Type: application/json
+
+{
+  "qr_code": "BIN-001",
+  "location_name": "Lobby Utama Gedung A"
+}
+
+###
+
+### Update an Existing Device (Assume ID is 1)
+PUT http://localhost:8000/admin/device/2
+Content-Type: application/json
+
+{
+  "qr_code": "BIN-001-NEW",
+  "location_name": "Samping Kantin Utama"
+}
+
+###
+
+### Delete a Device (Assume ID is 1)
+DELETE http://localhost:8000/admin/device/2
+Accept: application/json
+
