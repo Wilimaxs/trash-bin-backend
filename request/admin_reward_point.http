@@ -1,0 +1,34 @@
+### Get All Reward Points
+GET http://localhost:8000/admin/reward-point
+Accept: application/json
+
+###
+
+### Create a Reward Point
+POST http://localhost:8000/admin/reward-point/
+Content-Type: application/json
+
+{
+  "compartment_type": "organic",
+  "sub_category": "dry_leaf",
+  "reward_points": 10
+}
+
+###
+
+### Update a Reward Point (Assume ID is 1)
+PUT http://localhost:8000/admin/reward-point/11
+Content-Type: application/json
+
+{
+  "compartment_type": "inorganic",
+  "sub_category": "dry_leaf",
+  "reward_points": 20
+}
+
+###
+
+### Delete a Reward Point (Assume ID is 1)
+DELETE http://localhost:8000/admin/reward-point/11
+Accept: application/json
+
