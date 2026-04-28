@@ -13,6 +13,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <link rel="stylesheet" href="style.css"/>
+    <script src="utils.js" defer></script>
+    <script src="reward.js" defer></script>
+    <script src="device.js" defer></script>
+    <script src="upload.js" defer></script>
     <script src="app.js" defer></script>
 </head>
 <body>
@@ -291,18 +295,7 @@
             </div>
             <div class="form-group">
                 <label class="form-label" for="r-subcategory">Sub Category</label>
-                <select class="form-select" id="r-subcategory" name="r-subcategory">
-                    <option value="">-- Pilih Sub Category --</option>
-                    <option value="plastik">Plastik</option>
-                    <option value="kertas">Kertas</option>
-                    <option value="kaca">Kaca</option>
-                    <option value="logam">Logam</option>
-                    <option value="sisa_makanan">Sisa Makanan</option>
-                    <option value="daun">Daun / Tanaman</option>
-                    <option value="baterai">Baterai</option>
-                    <option value="elektronik">Elektronik</option>
-                    <option value="kimia">Kimia Berbahaya</option>
-                </select>
+                <input type="text" class="form-input" id="r-subcategory" name="r-subcategory" placeholder="Contoh: Plastik, Kaca, dll" />
             </div>
             <div class="form-group">
                 <label class="form-label" for="r-points">Reward Points</label>
