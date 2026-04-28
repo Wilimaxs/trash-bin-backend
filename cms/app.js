@@ -1,6 +1,8 @@
 /* global QRCode */
 
 /* ── DATA ────────────────────────── */
+const API_BASE_URL = 'http://127.0.0.1:8000';
+
 let rewards = [
     {id: 1, comp: 'organik', sub: 'sisa_makanan', pts: 10},
     {id: 2, comp: 'anorganik', sub: 'plastik', pts: 25},
@@ -84,8 +86,28 @@ function initNav() {
     });
 }
 
+async function fetchRewards() {
+    try {
+        const res = await fetch(`${API_BASE_URL}/admin/reward-point/`);
+        const json = await res.json();
+        if (json.data) {
+            rewards = json.data.map(r => ({
+                id: r.id, comp: r.compartment_type, sub: r.sub_category, pts: r.reward_points
+            }));
+        }
+    } catch (e) {
+        console.error(e);
+        toast('Gagal memuat data reward', 'error');
+    }
+}
+
 /* ── REWARD ──────────────────────── */
-function renderRewards(rows = rewards) {
+async function renderRewards(rows = null) {
+    if (!rows) {
+        await fetchRewards();
+        rows = rewards;
+    }
+        
     const tb = document.getElementById('reward-tbody');
     document.getElementById('cnt-reward').textContent = rows.length + ' data';
     document.getElementById('s-r-total').textContent = rewards.length;
@@ -101,7 +123,7 @@ function renderRewards(rows = rewards) {
         document.getElementById('s-r-min-lbl').textContent = subLabel[mn.sub] || mn.sub;
     }
 
-    if (!rows.length) {
+    if (!rows || !rows.length) {
         tb.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">⭐</div><div class="empty-text">Belum ada data reward</div></div></td></tr>`;
         return;
     }
@@ -124,7 +146,7 @@ function filterReward(q) {
     renderRewards(query ? rewards.filter(r => r.comp.includes(query) || (subLabel[r.sub] || r.sub).toLowerCase().includes(query) || String(r.pts).includes(query)) : rewards);
 }
 
-function saveReward() {
+async function saveReward() {
     const comp = document.getElementById('r-compartment').value;
     const sub = document.getElementById('r-subcategory').value;
     const pts = parseInt(document.getElementById('r-points').value, 10);
@@ -135,15 +157,31 @@ function saveReward() {
         return;
     }
 
-    if (eid) {
-        const i = rewards.findIndex(x => x.id === parseInt(eid, 10));
-        if (i > -1) rewards[i] = {...rewards[i], comp, sub, pts};
-        toast('Reward diupdate ✅', 'success');
-    } else {
-        rewards.push({id: rId++, comp, sub, pts});
-        toast('Reward ditambahkan ✅', 'success');
+    try {
+        const payload = { compartment_type: comp, sub_category: sub, reward_points: pts };
+        if (eid) {
+            const res = await fetch(`${API_BASE_URL}/admin/reward-point/${eid}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (res.ok) toast('Reward diupdate ✅', 'success');
+            else toast('Gagal update reward', 'error');
+        } else {
+            const res = await fetch(`${API_BASE_URL}/admin/reward-point/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (res.ok) toast('Reward ditambahkan ✅', 'success');
+            else toast('Gagal tambah reward', 'error');
+        }
+    } catch (e) {
+        console.error(e);
+        toast('Terjadi kesalahan jaringan', 'error');
     }
-    renderRewards();
+
+    await renderRewards();
     closeModal('modal-reward');
 }
 
@@ -209,7 +247,7 @@ function saveDevice() {
 
     if (eid) {
         const i = devices.findIndex(x => x.id === parseInt(eid, 10));
-        if (i > -1) devices[i] = {...devices[i], qr, loc, org, inorg, b3};
+        if( i > -1) devices[i] = {...devices[i], qr, loc, org, inorg, b3};
         toast('Device diupdate ✅', 'success');
     } else {
         devices.push({id: dId++, qr, loc, org, inorg, b3});
@@ -318,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btn-save-device').addEventListener('click', saveDevice);
 
     // Event Delegation untuk Tabel (Edit & Delete)
-    document.getElementById('reward-tbody').addEventListener('click', e => {
+    document.getElementById('reward-tbody').addEventListener('click', async e => {
         const btnEdit = e.target.closest('.btn-edit-reward');
         const btnDel = e.target.closest('.btn-del-reward');
 
@@ -328,9 +366,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (btnDel) {
             if (!confirm('Hapus reward ini?')) return;
-            rewards = rewards.filter(x => x.id !== parseInt(btnDel.dataset.id, 10));
-            renderRewards();
-            toast('Reward dihapus', 'success');
+            const rid = parseInt(btnDel.dataset.id, 10);
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/reward-point/${rid}`, { method: 'DELETE' });
+                if (res.ok) {
+                    toast('Reward dihapus', 'success');
+                    await renderRewards();
+                } else {
+                    toast('Gagal hapus reward', 'error');
+                }
+            } catch (err) {
+                console.error(err);
+                toast('Network error', 'error');
+            }
         }
     });
 

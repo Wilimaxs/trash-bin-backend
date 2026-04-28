@@ -4,6 +4,7 @@ import os
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.api import api_router
 from app.core.exceptions import include_app_exceptions
@@ -19,6 +20,14 @@ async def lifespan(_app: FastAPI):
 import_module("app.models")
 
 app = FastAPI(title="Trash Bin API", lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.mount("/public", StaticFiles(directory="public"), name="public")
 
