@@ -1,42 +1,64 @@
 /* ── DEVICE LOGIC ──────────────────────── */
 
-let devices = [
-    {id: 1, qr: 'QR-TPS-001', loc: 'TPS Blok A – Gedung Utama', org: 30, inorg: 20, b3: 10},
-    {id: 2, qr: 'QR-TPS-002', loc: 'TPS Blok B – Kantin Timur', org: 25, inorg: 25, b3: 5},
-    {id: 3, qr: 'QR-TPS-003', loc: 'TPS Parkiran Utara', org: 20, inorg: 15, b3: 8},
-    {id: 4, qr: 'QR-TPS-004', loc: 'TPS Lab Komputer', org: 15, inorg: 15, b3: 10},
-    {id: 5, qr: 'QR-TPS-005', loc: 'TPS Lobby Utama', org: 30, inorg: 15, b3: 7},
-];
+let devices = [];
 
-let dId = 6;
+async function fetchDevices() {
+    try {
+        const res = await fetch(`${API_BASE_URL}/admin/device/`);
+        const json = await res.json();
+        if (json.data) {
+            devices = json.data.map(d => ({
+                id: d.id, 
+                qr: d.qr_code, 
+                loc: d.location_name, 
+                org: d.capacity_organic, 
+                inorg: d.capacity_inorganic, 
+                b3: d.capacity_b3
+            }));
+        }
+    } catch (e) {
+        console.error(e);
+        toast('Gagal memuat data device', 'error');
+    }
+}
 
-function renderDevices(rows = devices) {
+async function renderDevices(rows = null) {
+    if (!rows) {
+        await fetchDevices();
+        rows = devices;
+    }
+
     const tb = document.getElementById('device-tbody');
     document.getElementById('cnt-device').textContent = rows.length + ' data';
-    document.getElementById('s-d-total').textContent = devices.length;
-    document.getElementById('badge-device').textContent = devices.length;
-    document.getElementById('s-d-org').textContent = devices.reduce((a, d) => a + d.org, 0) + ' L';
-    document.getElementById('s-d-inorg').textContent = devices.reduce((a, d) => a + d.inorg, 0) + ' L';
-    document.getElementById('s-d-b3').textContent = devices.reduce((a, d) => a + d.b3, 0) + ' L';
+    document.getElementById('s-d-total').textContent = String(devices.length);
+    
+    // Hitung persentase rata-rata untuk statistik atas
+    const avgOrg = devices.length ? Math.round(devices.reduce((a, d) => a + (d.org || 0), 0) / devices.length) : 0;
+    const avgInorg = devices.length ? Math.round(devices.reduce((a, d) => a + (d.inorg || 0), 0) / devices.length) : 0;
+    const avgB3 = devices.length ? Math.round(devices.reduce((a, d) => a + (d.b3 || 0), 0) / devices.length) : 0;
 
-    if (!rows.length) {
+    document.getElementById('s-d-org').textContent = avgOrg + '%';
+    document.getElementById('s-d-inorg').textContent = avgInorg + '%';
+    document.getElementById('s-d-b3').textContent = avgB3 + '%';
+
+    if (!rows || !rows.length) {
         tb.innerHTML = `<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">🗑️</div><div class="empty-text">Belum ada data device</div></div></td></tr>`;
         return;
     }
 
     tb.innerHTML = rows.map((d, i) => {
-        const tot = d.org + d.inorg + d.b3 || 1;
-        const pO = Math.round(d.org / tot * 100), pI = Math.round(d.inorg / tot * 100),
-            pB = Math.round(d.b3 / tot * 100);
+        // Karena kapasitas di database sudah berupa persentase 0-100, 
+        // kita langsung menjadikannya sebagai value untuk progress bar
+        const pO = d.org || 0, pI = d.inorg || 0, pB = d.b3 || 0;
         return `<tr>
             <td class="td-number">${String(i + 1).padStart(2, '0')}</td>
             <td><span class="td-qr-badge">${d.qr}</span></td>
             <td><div class="qr-cell" id="qr-cell-${d.id}"></div></td>
-            <td><div class="td-loc-name">${d.loc}</div></td>
+            <td><div class="td-loc-name">${d.loc || '—'}</div></td>
             <td><div class="cap-bar-wrap">
-                <div class="cap-bar-row"><div class="cap-bar-label" style="color:var(--green-li)">🌿 Organik</div><div class="cap-bar"><div class="cap-bar-fill fill-org" style="width:${pO}%"></div></div><div class="cap-bar-val">${d.org}L</div></div>
-                <div class="cap-bar-row"><div class="cap-bar-label" style="color:#84b0d8">♻️ Anorg.</div><div class="cap-bar"><div class="cap-bar-fill fill-inorg" style="width:${pI}%"></div></div><div class="cap-bar-val">${d.inorg}L</div></div>
-                <div class="cap-bar-row"><div class="cap-bar-label" style="color:#e08077">⚠️ B3</div><div class="cap-bar"><div class="cap-bar-fill fill-b3" style="width:${pB}%"></div></div><div class="cap-bar-val">${d.b3}L</div></div>
+                <div class="cap-bar-row"><div class="cap-bar-label" style="color:var(--green-li)">🌿 Organik</div><div class="cap-bar"><div class="cap-bar-fill fill-org" style="width:${pO}%"></div></div><div class="cap-bar-val">${pO}%</div></div>
+                <div class="cap-bar-row"><div class="cap-bar-label" style="color:#84b0d8">♻️ Anorg.</div><div class="cap-bar"><div class="cap-bar-fill fill-inorg" style="width:${pI}%"></div></div><div class="cap-bar-val">${pI}%</div></div>
+                <div class="cap-bar-row"><div class="cap-bar-label" style="color:#e08077">⚠️ B3</div><div class="cap-bar"><div class="cap-bar-fill fill-b3" style="width:${pB}%"></div></div><div class="cap-bar-val">${pB}%</div></div>
             </div></td>
             <td><div class="td-actions">
                 <button class="btn btn-outline btn-sm btn-icon btn-edit-device" data-id="${d.id}">✏️</button>
@@ -48,36 +70,92 @@ function renderDevices(rows = devices) {
     // Render QR Code Langsung
     rows.forEach(d => {
         renderQRDirect(d.qr, `qr-cell-${d.id}`);
+        // Tambah fitur klik perbesar QR
+        const cellBox = document.getElementById(`qr-cell-${d.id}`);
+        if (cellBox) {
+            cellBox.style.cursor = 'pointer';
+            cellBox.title = 'Klik untuk memperbesar & download';
+            cellBox.addEventListener('click', () => viewLargeQR(d.qr, d.loc));
+        }
     });
+}
+
+function viewLargeQR(qr, loc) {
+    document.getElementById('qr-large-title').textContent = loc || 'Tanpa Lokasi';
+    document.getElementById('qr-large-subtitle').textContent = qr;
+    
+    // Gunakan utility renderQRDirect untuk me-render ukuran besar (256px)
+    renderQRDirect(qr, 'qr-large-box', 256);
+    
+    // Set up fungsionalitas button download
+    const btnDown = document.getElementById('btn-download-qr');
+    btnDown.onclick = () => {
+        const canvas = document.querySelector('#qr-large-box canvas');
+        if (canvas) {
+            const url = canvas.toDataURL('image/png');
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `QR_${qr}.png`;
+            a.click();
+        } else {
+            const img = document.querySelector('#qr-large-box img');
+            if (img && img.src) {
+                const a = document.createElement('a');
+                a.href = img.src;
+                a.download = `QR_${qr}.png`;
+                a.click();
+            }
+        }
+    };
+    
+    // Gunakan fungsi utils openModal (mode view akan mem-bypass kondisi add/edit dan hanya membuka modal)
+    openModal('modal-qr-view', 'view');
 }
 
 function filterDevice(q) {
     const query = q.toLowerCase().trim();
-    renderDevices(query ? devices.filter(d => d.qr.toLowerCase().includes(query) || d.loc.toLowerCase().includes(query)) : devices);
+    renderDevices(query ? devices.filter(d => 
+        (d.qr || '').toLowerCase().includes(query) || (d.loc || '').toLowerCase().includes(query)
+    ) : devices).catch(console.error);
 }
 
-function saveDevice() {
+async function saveDevice() {
     const qr = document.getElementById('d-qr').value.trim();
     const loc = document.getElementById('d-location').value.trim();
-    const org = parseInt(document.getElementById('d-cap-org').value, 10) || 0;
-    const inorg = parseInt(document.getElementById('d-cap-inorg').value, 10) || 0;
-    const b3 = parseInt(document.getElementById('d-cap-b3').value, 10) || 0;
     const eid = document.getElementById('d-edit-id').value;
 
-    if (!qr || !loc) {
-        toast('QR Code & Nama Lokasi wajib diisi!', 'error');
+    if (!qr) {
+        toast('QR Code wajib diisi!', 'error');
         return;
     }
 
-    if (eid) {
-        const i = devices.findIndex(x => x.id === parseInt(eid, 10));
-        if( i > -1) devices[i] = {...devices[i], qr, loc, org, inorg, b3};
-        toast('Device diupdate ✅', 'success');
-    } else {
-        devices.push({id: dId++, qr, loc, org, inorg, b3});
-        toast('Device ditambahkan ✅', 'success');
+    try {
+        const payload = { qr_code: qr, location_name: loc || null };
+        if (eid) {
+            const res = await fetch(`${API_BASE_URL}/admin/device/${eid}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const json = await res.json();
+            if (res.ok) toast('Device diupdate ✅', 'success');
+            else toast(json.message || 'Gagal update device', 'error');
+        } else {
+            const res = await fetch(`${API_BASE_URL}/admin/device/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const json = await res.json();
+            if (res.ok && !json.error) toast('Device ditambahkan ✅', 'success');
+            else toast(json.message || 'Gagal tambah device', 'error');
+        }
+    } catch (e) {
+        console.error(e);
+        toast('Terjadi kesalahan jaringan', 'error');
     }
-    renderDevices();
+
+    await renderDevices();
     closeModal('modal-device');
 }
 
@@ -101,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btn-save-device').addEventListener('click', saveDevice);
 
     // Event Delegation (Edit & Delete)
-    document.getElementById('device-tbody').addEventListener('click', e => {
+    document.getElementById('device-tbody').addEventListener('click', async e => {
         const btnEdit = e.target.closest('.btn-edit-device');
         const btnDel = e.target.closest('.btn-del-device');
 
@@ -111,9 +189,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (btnDel) {
             if (!confirm('Hapus device ini?')) return;
-            devices = devices.filter(x => x.id !== parseInt(btnDel.dataset.id, 10));
-            renderDevices();
-            toast('Device dihapus', 'success');
+            const did = parseInt(btnDel.dataset.id, 10);
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/device/${did}`, { method: 'DELETE' });
+                const json = await res.json();
+                if (res.ok && !json.error) {
+                    toast('Device dihapus', 'success');
+                    await renderDevices();
+                } else {
+                    toast(json.message || 'Gagal hapus device', 'error');
+                }
+            } catch (err) {
+                console.error(err);
+                toast('Network error', 'error');
+            }
         }
     });
 });

@@ -67,9 +67,6 @@ function openModal(id, mode, editData = null) {
             document.getElementById('d-edit-id').value = editData.id;
             document.getElementById('d-qr').value = editData.qr;
             document.getElementById('d-location').value = editData.loc;
-            document.getElementById('d-cap-org').value = editData.org;
-            document.getElementById('d-cap-inorg').value = editData.inorg;
-            document.getElementById('d-cap-b3').value = editData.b3;
             titleEl.textContent = '✏️ Edit Device';
             if (typeof updateQRModalPreview === 'function') updateQRModalPreview(editData.qr);
         }
