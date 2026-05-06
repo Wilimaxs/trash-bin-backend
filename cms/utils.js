@@ -1,6 +1,6 @@
 /* ── UTILITIES & SHARED DATA ───────────────────── */
 
-const API_BASE_URL = 'http://127.0.0.1:8000';
+const API_BASE_URL = 'https://notify.basehub.me';
 
 const compChip = {
     organik: '<span class="chip chip-organic">🌿 Organik</span>',
