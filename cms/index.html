@@ -42,8 +42,8 @@
 
         <div class="nav-item" data-page="upload">
             <div class="nav-active-bar"></div>
-            <span class="nav-icon">📤</span>
-            <span>Upload Model</span>
+            <span class="nav-icon">❓</span>
+            <span>Unknown Trash</span>
         </div>
 
         <div class="nav-item" data-page="device">
@@ -133,86 +133,39 @@
         <div class="page-header">
             <div>
                 <div class="page-title">
-                    <div class="title-icon">📤</div>
-                    Upload Model ML
+                    <div class="title-icon">❓</div>
+                    Unknown Trash
                 </div>
-                <div class="page-desc">Replace file model ML di server. Target: <code class="code-target">ml_model/version1.pt</code>
+                <div class="page-desc">Kelola dan pantau gambar sampah yang tidak berhasil dikenali oleh model ML.
                 </div>
+            </div>
+            <div style="display:flex; gap: 10px;">
+                <button class="btn btn-outline" id="btn-download-all" style="display:flex; align-items:center; gap: 8px;">⬇️ Download All & Delete</button>
+                <button class="btn btn-outline" id="btn-delete-all" style="color:var(--red); border-color:var(--red); display:flex; align-items:center; gap: 8px;">🗑️ Delete All</button>
             </div>
         </div>
 
-        <div class="upload-section">
-            <div class="upload-card">
-                <div class="upload-card-title">🔧 Upload &amp; Replace Model</div>
-
-                <div class="form-group">
-                    <label class="form-label" for="upload-subcat">Sub Category</label>
-                    <input type="text" class="form-input" id="upload-subcat" name="upload-subcat"
-                           placeholder="Contoh: Pecahan kaca, Plastik PET, Kaleng aluminium…"/>
-                    <div class="form-hint">Ketik nama sub kategori sampah yang sesuai dengan model ini.</div>
-                </div>
-
-                <div class="dropzone" id="dropzone">
-                    <label for="file-input" style="display:none;">File model</label>
-                    <input type="file" id="file-input" name="file-input" accept=".pt,.pth,.bin,.onnx"
-                           aria-label="File upload"/>
-                    <div class="dropzone-icon">🤖</div>
-                    <div class="dropzone-title">Drop file model di sini</div>
-                    <div class="dropzone-sub">atau <span class="dropzone-accent">klik untuk browse</span></div>
-                    <div class="dropzone-sub dropzone-format">Format: .pt .pth .bin .onnx</div>
-                </div>
-
-                <div class="file-info-box" id="file-info">
-                    <div class="file-name" id="fname">—</div>
-                    <div class="file-size" id="fsize">—</div>
-                </div>
-
-                <div class="upload-progress" id="uprog">
-                    <div class="progress-text"><span>Mengupload…</span><span class="progress-pct" id="upct">0%</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="ufill"></div>
-                    </div>
-                </div>
-
-                <div class="upload-actions">
-                    <button class="btn btn-primary" id="btn-upload-submit">📤 Upload &amp; Replace</button>
-                    <button class="btn btn-outline" id="btn-upload-reset">Reset</button>
-                </div>
+        <div class="table-card">
+            <div class="table-header">
+                <div class="table-title">Daftar Sampah Tak Dikenali <span class="table-count" id="cnt-unknown">0 data</span></div>
+            </div>
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Preview Image</th>
+                        <th>Waktu (Created At)</th>
+                        <th>Lokasi Device</th>
+                        <th>Aksi</th>
+                    </tr>
+                    </thead>
+                    <tbody id="unknown-tbody"></tbody>
+                </table>
             </div>
 
-            <div class="file-path-container">
-                <div class="file-path-card">
-                    <div class="upload-card-title card-title-mb">📁 Struktur File Target</div>
-                    <div class="file-tree">
-                        <span class="folder">📂 project-root/</span>
-                        <span class="i1">📂 <span class="folder">backend/</span></span>
-                        <span class="i2">📄 main.py</span>
-                        <span class="i1">📂 <span class="folder">ml_model/</span></span>
-                        <span class="i2">📄 <span class="target">⚡ version1.pt</span>  ← Target</span>
-                        <span class="i1">📂 <span class="folder">static/</span></span>
-                        <span class="i2">📄 …</span>
-                    </div>
-                </div>
-                <div class="file-path-card">
-                    <div class="upload-card-title card-title-sm">ℹ️ Model Aktif</div>
-                    <div class="active-model-info">
-                        <div class="info-row">
-                            <span class="info-label">File aktif</span>
-                            <span class="info-val code-target">version1.pt</span>
-                        </div>
-                        <div class="divider"></div>
-                        <div class="info-row">
-                            <span class="info-label">Ukuran</span>
-                            <span>142.8 MB</span>
-                        </div>
-                        <div class="divider"></div>
-                        <div class="info-row">
-                            <span class="info-label">Format</span>
-                            <span class="info-val code-amber">.pt (PyTorch)</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="pagination-wrap" id="unknown-pagination" style="display:flex; justify-content:flex-end; gap:5px; padding: 15px; border-top: 1px solid var(--border);">
+                <!-- Pagination buttons will be populated by JS -->
             </div>
         </div>
     </div>
