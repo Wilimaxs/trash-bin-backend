@@ -8,10 +8,22 @@ Content-Disposition: form-data; name="qr_code"
 
 3416cb3a-c4f5-4c39-8fb9-f5925e3f0efb
 --boundary
+Content-Disposition: form-data; name="capacity_organic"
+
+100
+--boundary
+Content-Disposition: form-data; name="capacity_inorganic"
+
+60
+--boundary
+Content-Disposition: form-data; name="capacity_b3"
+
+50
+--boundary
 Content-Disposition: form-data; name="image"; filename="sample_trash.jpg"
 Content-Type: image/jpeg
 
-< ./roblox.png
+< ./battery.png
 --boundary--
 
 ### Update Capacity (IoT ESP32 hit)

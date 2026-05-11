@@ -1,6 +1,7 @@
 import io
 import os
 import uuid
+from typing import Optional
 
 from PIL import Image
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
@@ -51,12 +52,22 @@ except Exception as e:
 def detect_trash(
     qr_code: str = Form(..., description="UUID / QR Code of the trash bin"),
     image: UploadFile = File(..., description="Image captured by ESP32 camera"),
+    capacity_organic: Optional[int] = Form(None, description="Current capacity of organic bin"),
+    capacity_inorganic: Optional[int] = Form(None, description="Current capacity of inorganic bin"),
+    capacity_b3: Optional[int] = Form(None, description="Current capacity of b3 bin"),
     db: Session = Depends(get_db)
 ):
     # 1. Cari TrashBin berdasarkan qr_code
     trash_bin = db.execute(select(TrashBin).where(TrashBin.qr_code == qr_code)).scalar_one_or_none()
     if not trash_bin:
         raise HTTPException(status_code=404, detail="Trash bin not found")
+
+    if capacity_organic is not None:
+        trash_bin.capacity_organic = capacity_organic
+    if capacity_inorganic is not None:
+        trash_bin.capacity_inorganic = capacity_inorganic
+    if capacity_b3 is not None:
+        trash_bin.capacity_b3 = capacity_b3
 
     # 2. Cari sesi aktif di tong sampah tersebut
     active_session = db.execute(
