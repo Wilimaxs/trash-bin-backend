@@ -75,14 +75,14 @@ async def dashboard_event_generator(request: Request, user_id: int):
                 recent_activity = []
                 for disposal in disposals:
                     category_name = None
-                    compartment_type = None
+                    compartment_type = "organic"
                     if disposal.trash_category_id:
                         cat = db.execute(
                             select(TrashCategory).where(TrashCategory.id == disposal.trash_category_id)
                         ).scalar_one_or_none()
                         if cat:
                             category_name = cat.sub_category
-                            compartment_type = cat.compartment_type
+                            compartment_type = cat.compartment_type or compartment_type
                     
                     recent_activity.append({
                         "category": category_name,
