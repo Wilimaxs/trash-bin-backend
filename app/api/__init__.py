@@ -11,6 +11,7 @@ from app.api.point_earned import router as point_earned_router
 from app.api.profile import router as profile_router
 from app.api.bin_session import router as bin_session_router
 from app.api.iot import router as iot_router
+from app.api.iot_test_bg import router as iot_test_bg_router
 from app.api.stream import router as stream_router
 from app.api.refresh_token import router as refresh_token_router
 from app.api.admin_reward_point import router as admin_reward_point_router
@@ -30,6 +31,7 @@ api_router.include_router(point_earned_router)
 api_router.include_router(profile_router)
 api_router.include_router(bin_session_router)
 api_router.include_router(iot_router)
+api_router.include_router(iot_test_bg_router)
 api_router.include_router(stream_router)
 api_router.include_router(refresh_token_router)
 api_router.include_router(admin_reward_point_router)
