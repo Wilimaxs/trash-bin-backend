@@ -64,7 +64,7 @@ BG_WARMUP_FRAMES = 30
 
 # Sensitivitas perubahan pixel.
 # 30-40 = sensitif, 50-70 = balanced, >80 = butuh perubahan besar
-BG_VAR_THRESHOLD = 50
+BG_VAR_THRESHOLD = 70
 
 # ============================================================
 # BACKGROUND SUBTRACTOR - Per trash bin (key = qr_code)
