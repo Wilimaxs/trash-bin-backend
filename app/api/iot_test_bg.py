@@ -55,7 +55,7 @@ BG_DEBUG = True
 # Minimum area foreground (pixel) agar dianggap ada objek.
 # Tuning: jalankan endpoint /iot/bg-debug dulu untuk cari nilai yang pas.
 # Gunakan /bg-debug → masukkan sampah terkecil → lihat max_area → set nilai di bawahnya
-BG_MIN_AREA = 800
+BG_MIN_AREA = 300
 
 # Jumlah frame pertama untuk warmup MOG2 belajar background.
 # Warmup hanya terjadi saat SERVER restart, bukan saat ESP restart.
