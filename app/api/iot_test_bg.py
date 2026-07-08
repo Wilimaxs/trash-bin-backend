@@ -297,7 +297,15 @@ def detect_trash_v2(
         saved_image_url = f"/public/disposals/{filename}"
 
         img = Image.open(io.BytesIO(image_bytes))
+
+        #  TODO hapus ketika tidak dibutuhkan
+        import time
+        yolo_start_time = time.time()
+
         results = yolo_model(img, verbose=False)
+
+        yolo_inference_time = (time.time() - yolo_start_time) * 1000  # dalam ms
+        print(f"[YOLO INFERENCE TIME] {yolo_inference_time:.2f} ms")
 
         if len(results) > 0 and len(results[0].boxes) > 0:
             best_box = results[0].boxes[0]
@@ -415,32 +423,3 @@ def bg_debug(
             else "BACKGROUND → kalau ini sampah, turunkan BG_MIN_AREA"
         )
     }
-
-
-# from pydantic import BaseModel
-#
-# class UpdateCapacityRequest(BaseModel):
-#     qr_code: str
-#     capacity_organic: int
-#     capacity_inorganic: int
-#     capacity_b3: int
-#
-# @router.post("/update-capacity")
-# def update_capacity(
-#     request: UpdateCapacityRequest,
-#     db: Session = Depends(get_db)
-# ):
-#     trash_bin = db.execute(select(TrashBin).where(TrashBin.qr_code == request.qr_code)).scalar_one_or_none()
-#
-#     if not trash_bin:
-#         raise HTTPException(status_code=404, detail="Trash bin not found")
-#
-#     trash_bin.capacity_organic = request.capacity_organic
-#     trash_bin.capacity_inorganic = request.capacity_inorganic
-#     trash_bin.capacity_b3 = request.capacity_b3
-#
-#     db.commit()
-#
-#     return success(
-#         message="Capacity updated successfully"
-#     )
